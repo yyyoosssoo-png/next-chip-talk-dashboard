@@ -13,7 +13,7 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# 커스텀 CSS 스타일
+# 커스텀 CSS 스타일 (새로운 레퍼런스 기반)
 st.markdown("""
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap');
@@ -21,7 +21,47 @@ st.markdown("""
     /* 전체 앱 배경 */
     .stApp {
         background: linear-gradient(135deg, #000000 0%, #0a0a1a 30%, #1a1a2e 70%, #0a0a1a 100%);
+        background-size: 400% 400%;
+        animation: gradientShift 20s ease infinite;
         color: #ffffff;
+        position: relative;
+        overflow-x: hidden;
+    }
+    
+    @keyframes gradientShift {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+    }
+    
+    /* 스파클링 배경 효과 */
+    .stApp::before {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: 
+            radial-gradient(2px 2px at 20px 30px, rgba(255, 255, 255, 0.8), transparent),
+            radial-gradient(2px 2px at 40px 70px, rgba(168, 85, 247, 0.6), transparent),
+            radial-gradient(1px 1px at 90px 40px, rgba(255, 255, 255, 0.4), transparent),
+            radial-gradient(1px 1px at 130px 80px, rgba(236, 72, 153, 0.5), transparent),
+            radial-gradient(2px 2px at 160px 30px, rgba(255, 255, 255, 0.3), transparent),
+            radial-gradient(1px 1px at 200px 90px, rgba(6, 182, 212, 0.4), transparent),
+            radial-gradient(1px 1px at 250px 50px, rgba(255, 255, 255, 0.6), transparent),
+            radial-gradient(2px 2px at 300px 20px, rgba(168, 85, 247, 0.3), transparent),
+            radial-gradient(1px 1px at 350px 60px, rgba(255, 255, 255, 0.5), transparent);
+        background-repeat: repeat;
+        background-size: 350px 200px;
+        animation: sparkle 25s linear infinite;
+        pointer-events: none;
+        z-index: -1;
+    }
+    
+    @keyframes sparkle {
+        0% { transform: translate(0, 0); }
+        100% { transform: translate(-350px, -200px); }
     }
     
     /* 메인 컨테이너 */
@@ -42,41 +82,117 @@ st.markdown("""
         border: 1px solid rgba(255, 255, 255, 0.12);
     }
     
+    .logo-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 1.5rem;
+    }
+    
+    .logo-fallback {
+        font-family: 'Orbitron', monospace;
+        font-size: 4rem;
+        font-weight: 300;
+        color: #ffffff;
+        letter-spacing: 0.2em;
+        text-shadow: 0 10px 30px rgba(168, 85, 247, 0.3);
+        margin-bottom: 20px;
+        transition: all 0.3s ease;
+    }
+    
+    .logo-fallback:hover {
+        transform: translateY(-5px);
+        text-shadow: 0 20px 40px rgba(168, 85, 247, 0.4);
+    }
+    
     .main-title {
         font-family: 'Orbitron', monospace;
-        font-size: 2.5rem;
+        font-size: 2.4rem;
         font-weight: 600;
         color: #ffffff;
         text-shadow: 0 5px 15px rgba(255, 255, 255, 0.1);
-        margin-bottom: 0.5rem;
+        margin: 25px 0 15px 0;
+        letter-spacing: 0.05em;
     }
     
     .sub-title {
-        font-size: 1.2rem;
+        font-size: 1.1rem;
         color: #b8b9ff;
         font-weight: 300;
         margin-bottom: 1rem;
+        line-height: 1.6;
     }
     
     .accent-line {
         width: 120px;
         height: 4px;
         background: linear-gradient(90deg, #a855f7, #ec4899, #06b6d4);
-        margin: 0 auto;
+        margin: 25px auto;
         border-radius: 2px;
         box-shadow: 0 0 20px rgba(168, 85, 247, 0.5);
+    }
+    
+    /* 탭 스타일 개선 */
+    .stTabs [data-baseweb="tab-list"] {
+        background: rgba(255, 255, 255, 0.08);
+        border-radius: 16px;
+        padding: 8px;
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        gap: 8px;
+    }
+    
+    .stTabs [data-baseweb="tab"] {
+        background: transparent;
+        border-radius: 12px;
+        color: #d1d5db;
+        font-weight: 500;
+        font-family: 'Noto Sans KR', sans-serif;
+        transition: all 0.4s ease;
+        position: relative;
+        overflow: hidden;
+        padding: 16px 20px;
+    }
+    
+    .stTabs [data-baseweb="tab"]::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+        transition: left 0.6s ease;
+    }
+    
+    .stTabs [data-baseweb="tab"]:hover::before {
+        left: 100%;
+    }
+    
+    .stTabs [aria-selected="true"] {
+        background: linear-gradient(135deg, #a855f7, #ec4899) !important;
+        color: white !important;
+        transform: translateY(-3px);
+        box-shadow: 0 12px 30px rgba(168, 85, 247, 0.4);
+    }
+    
+    .stTabs [data-baseweb="tab"]:hover:not([aria-selected="true"]) {
+        background: rgba(255, 255, 255, 0.15) !important;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(255, 255, 255, 0.1);
     }
     
     /* KPI 카드 스타일 */
     .kpi-card {
         background: rgba(255, 255, 255, 0.08);
-        padding: 1.5rem;
+        padding: 30px 25px;
         border-radius: 20px;
         text-align: center;
         backdrop-filter: blur(20px);
         border: 1px solid rgba(255, 255, 255, 0.12);
         margin: 0.5rem 0;
-        transition: all 0.3s ease;
+        transition: all 0.4s ease;
         position: relative;
         overflow: hidden;
     }
@@ -89,26 +205,39 @@ st.markdown("""
         right: 0;
         height: 2px;
         background: linear-gradient(90deg, #a855f7, #ec4899, #06b6d4);
+        transform: translateX(-100%);
+        transition: transform 0.6s ease;
+    }
+    
+    .kpi-card:hover::before {
+        transform: translateX(0);
+    }
+    
+    .kpi-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 20px 50px rgba(168, 85, 247, 0.25);
+        background: rgba(255, 255, 255, 0.12);
     }
     
     .kpi-value {
-        font-size: 2.5rem;
+        font-size: 3rem;
         font-weight: 700;
         background: linear-gradient(135deg, #a855f7, #ec4899, #06b6d4);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
-        margin-bottom: 0.5rem;
+        margin-bottom: 12px;
+        text-shadow: 0 0 30px rgba(168, 85, 247, 0.5);
     }
     
     .kpi-label {
         font-size: 1.1rem;
         color: #e5e7eb;
-        margin-bottom: 0.3rem;
+        margin-bottom: 8px;
         font-weight: 500;
     }
     
     .kpi-desc {
-        font-size: 0.9rem;
+        font-size: 0.95rem;
         color: #9ca3af;
         opacity: 0.8;
     }
@@ -116,21 +245,56 @@ st.markdown("""
     /* 차트 컨테이너 */
     .chart-container {
         background: rgba(255, 255, 255, 0.08);
-        padding: 1.5rem;
+        padding: 30px;
         border-radius: 20px;
         backdrop-filter: blur(20px);
         border: 1px solid rgba(255, 255, 255, 0.12);
         margin: 1rem 0;
+        transition: all 0.3s ease;
     }
     
-    /* 인사이트 카드 */
+    .chart-container:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+    }
+    
+    .chart-title {
+        font-size: 1.3rem;
+        font-weight: 600;
+        margin-bottom: 25px;
+        color: #ffffff;
+        text-align: center;
+        position: relative;
+    }
+    
+    .chart-title::after {
+        content: '';
+        position: absolute;
+        bottom: -8px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 50px;
+        height: 2px;
+        background: linear-gradient(90deg, #a855f7, #ec4899);
+        border-radius: 1px;
+    }
+    
+    /* 인사이트 카드 개선 */
     .insight-card {
         background: rgba(255, 255, 255, 0.06);
-        padding: 1.5rem;
+        padding: 25px;
         border-radius: 12px;
         border-left: 4px solid #a855f7;
         margin: 1rem 0;
         border: 1px solid rgba(255, 255, 255, 0.08);
+        transition: all 0.3s ease;
+        position: relative;
+    }
+    
+    .insight-card:hover {
+        background: rgba(255, 255, 255, 0.1);
+        transform: translateY(-3px);
+        box-shadow: 0 10px 30px rgba(168, 85, 247, 0.15);
     }
     
     .insight-title {
@@ -138,26 +302,242 @@ st.markdown("""
         font-weight: 600;
         font-size: 1.1rem;
         margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 10px;
     }
     
-    /* 탭 스타일 */
-    .stTabs [data-baseweb="tab-list"] {
-        background: rgba(255, 255, 255, 0.08);
-        border-radius: 16px;
-        padding: 8px;
+    /* 인사이트 아이콘 스타일 */
+    .icon-target::before {
+        content: '';
+        width: 16px;
+        height: 16px;
+        background: linear-gradient(135deg, #a855f7, #ec4899);
+        clip-path: circle(50%);
+        display: inline-block;
+        margin-right: 8px;
+    }
+    
+    .icon-chart::before {
+        content: '';
+        width: 16px;
+        height: 16px;
+        background: linear-gradient(135deg, #06b6d4, #10b981);
+        clip-path: polygon(0% 100%, 0% 60%, 25% 40%, 50% 70%, 75% 20%, 100% 50%, 100% 100%);
+        display: inline-block;
+        margin-right: 8px;
+    }
+    
+    .icon-cycle::before {
+        content: '';
+        width: 16px;
+        height: 16px;
+        background: linear-gradient(135deg, #10b981, #f59e0b);
+        border-radius: 50%;
+        border: 2px solid #10b981;
+        display: inline-block;
+        margin-right: 8px;
+    }
+    
+    .icon-growth::before {
+        content: '';
+        width: 16px;
+        height: 16px;
+        background: linear-gradient(135deg, #ec4899, #a855f7);
+        clip-path: polygon(0% 100%, 20% 60%, 40% 80%, 60% 40%, 80% 60%, 100% 0%, 100% 100%);
+        display: inline-block;
+        margin-right: 8px;
+    }
+    
+    .icon-gear::before {
+        content: '';
+        width: 16px;
+        height: 16px;
+        background: linear-gradient(135deg, #06b6d4, #ec4899);
+        clip-path: polygon(50% 0%, 80% 10%, 100% 35%, 90% 70%, 65% 100%, 35% 100%, 10% 70%, 0% 35%, 20% 10%);
+        display: inline-block;
+        margin-right: 8px;
+    }
+    
+    .icon-lightbulb::before {
+        content: '';
+        width: 16px;
+        height: 16px;
+        background: linear-gradient(135deg, #f59e0b, #a855f7);
+        clip-path: circle(40%);
+        filter: drop-shadow(0 0 6px rgba(245, 158, 11, 0.6));
+        display: inline-block;
+        margin-right: 8px;
+    }
+    
+    .icon-money::before {
+        content: '';
+        width: 16px;
+        height: 16px;
+        background: linear-gradient(135deg, #f59e0b, #ec4899);
+        clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%);
+        display: inline-block;
+        margin-right: 8px;
+    }
+    
+    .icon-loop::before {
+        content: '';
+        width: 16px;
+        height: 16px;
+        background: linear-gradient(135deg, #10b981, #06b6d4);
+        border-radius: 50%;
+        border: 3px solid transparent;
+        display: inline-block;
+        margin-right: 8px;
+    }
+    
+    /* 감정 분석 카드들 */
+    .sentiment-positive {
+        background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(16, 185, 129, 0.1));
+        border-left: 4px solid #10b981;
+    }
+    
+    .sentiment-neutral {
+        background: linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(245, 158, 11, 0.1));
+        border-left: 4px solid #f59e0b;
+    }
+    
+    .sentiment-negative {
+        background: linear-gradient(135deg, rgba(239, 68, 68, 0.2), rgba(239, 68, 68, 0.1));
+        border-left: 4px solid #ef4444;
+    }
+    
+    /* 교육 개요 섹션 */
+    .education-overview {
+        background: linear-gradient(135deg, rgba(168, 85, 247, 0.2), rgba(236, 72, 153, 0.2));
+        padding: 35px;
+        border-radius: 20px;
+        margin: 2rem 0;
+        border: 1px solid rgba(255, 255, 255, 0.15);
         backdrop-filter: blur(20px);
     }
     
-    .stTabs [data-baseweb="tab"] {
-        background: transparent;
-        border-radius: 12px;
-        color: #d1d5db;
-        font-weight: 500;
+    .education-title {
+        font-size: 2rem;
+        font-weight: 600;
+        text-align: center;
+        color: #ffffff;
+        margin-bottom: 1.5rem;
     }
     
-    .stTabs [aria-selected="true"] {
-        background: linear-gradient(135deg, #a855f7, #ec4899) !important;
-        color: white !important;
+    .education-item {
+        background: rgba(255, 255, 255, 0.12);
+        padding: 25px;
+        border-radius: 16px;
+        backdrop-filter: blur(15px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        margin: 1rem 0;
+        transition: all 0.3s ease;
+    }
+    
+    .education-item:hover {
+        transform: translateY(-3px);
+        background: rgba(255, 255, 255, 0.18);
+    }
+    
+    .education-item h4 {
+        font-size: 1.2rem;
+        font-weight: 600;
+        margin-bottom: 12px;
+        color: #ffffff;
+    }
+    
+    .education-item p, .education-item ul {
+        font-size: 0.95rem;
+        line-height: 1.6;
+        color: rgba(255, 255, 255, 0.9);
+    }
+    
+    .education-item ul {
+        padding-left: 0;
+        list-style: none;
+    }
+    
+    .education-item li {
+        margin-bottom: 10px;
+        padding-left: 20px;
+        position: relative;
+    }
+    
+    .education-item li::before {
+        content: "▸";
+        position: absolute;
+        left: 0;
+        color: #fbbf24;
+        font-weight: bold;
+    }
+    
+    /* 세션 구성 카드 */
+    .session-composition {
+        text-align: center;
+        padding: 20px;
+        border-radius: 16px;
+        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        margin: 0.5rem;
+        transition: all 0.3s ease;
+    }
+    
+    .session-composition:hover {
+        background: rgba(255, 255, 255, 0.1);
+        transform: translateY(-3px);
+    }
+    
+    .session-title {
+        font-weight: 600;
+        margin-bottom: 8px;
+        color: #a855f7;
+        font-size: 0.95rem;
+        line-height: 1.3;
+    }
+    
+    .session-topic {
+        font-size: 0.8rem;
+        color: #9ca3af;
+        margin-bottom: 15px;
+        font-style: italic;
+        opacity: 0.8;
+    }
+    
+    .dept-bar {
+        margin: 10px 0;
+        display: flex;
+        align-items: center;
+    }
+    
+    .dept-name {
+        width: 70px;
+        font-size: 0.8rem;
+        text-align: left;
+        color: #e5e7eb;
+    }
+    
+    .dept-progress {
+        flex: 1;
+        height: 8px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+        margin: 0 8px;
+        overflow: hidden;
+    }
+    
+    .dept-fill {
+        height: 100%;
+        border-radius: 10px;
+        transition: width 0.8s ease;
+        box-shadow: 0 0 10px rgba(168, 85, 247, 0.3);
+    }
+    
+    .dept-percent {
+        font-size: 0.8rem;
+        min-width: 35px;
+        color: #d1d5db;
+        font-weight: 500;
     }
     
     /* 메트릭 스타일 오버라이드 */
@@ -183,55 +563,60 @@ st.markdown("""
         color: #ffffff;
     }
     
-    /* 로고 스타일 */
-    .logo-container {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        margin-bottom: 1rem;
-    }
-    
-    .logo-fallback {
-        font-family: 'Orbitron', monospace;
-        font-size: 3rem;
-        font-weight: 300;
-        color: #ffffff;
-        letter-spacing: 0.2em;
-        text-shadow: 0 0 20px rgba(168, 85, 247, 0.5);
-    }
-    
-    /* 감정 분석 카드들 */
-    .sentiment-positive {
-        background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(16, 185, 129, 0.1));
-        border-left: 4px solid #10b981;
-    }
-    
-    .sentiment-neutral {
-        background: linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(245, 158, 11, 0.1));
-        border-left: 4px solid #f59e0b;
-    }
-    
-    .sentiment-negative {
-        background: linear-gradient(135deg, rgba(239, 68, 68, 0.2), rgba(239, 68, 68, 0.1));
-        border-left: 4px solid #ef4444;
-    }
-    
-    /* HRD 섹션 */
-    .hrd-section {
-        background: linear-gradient(135deg, rgba(168, 85, 247, 0.2), rgba(236, 72, 153, 0.2));
-        padding: 2rem;
-        border-radius: 20px;
-        border: 1px solid rgba(255, 255, 255, 0.15);
-        backdrop-filter: blur(20px);
-        margin: 2rem 0;
-    }
-    
-    .hrd-title {
-        font-size: 1.8rem;
-        font-weight: 600;
+    /* ROI 분석 카드 */
+    .roi-card {
+        background: rgba(255, 255, 255, 0.08);
+        padding: 20px;
+        border-radius: 12px;
         text-align: center;
+        margin: 0.5rem;
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+    }
+    
+    .roi-value {
+        font-size: 2rem;
+        font-weight: 700;
+        color: #06b6d4;
+        margin-bottom: 8px;
+    }
+    
+    .roi-label {
+        font-size: 0.9rem;
+        color: #d1d5db;
+    }
+    
+    /* HRD 분석 섹션 */
+    .hrd-analysis {
+        margin-top: 30px;
+        padding: 25px;
+        background: rgba(255, 255, 255, 0.06);
+        border-radius: 12px;
+        border-left: 4px solid #a855f7;
+    }
+    
+    .hrd-analysis h4 {
+        color: #a855f7;
+        margin-bottom: 15px;
+        font-weight: 600;
+    }
+    
+    .hrd-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 20px;
+    }
+    
+    .hrd-item h5 {
         color: #ffffff;
-        margin-bottom: 1.5rem;
+        margin-bottom: 10px;
+        font-size: 0.95rem;
+    }
+    
+    .hrd-item p {
+        color: #d1d5db;
+        font-size: 0.9rem;
+        line-height: 1.5;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -270,7 +655,7 @@ tab1, tab2, tab3, tab4 = st.tabs(["📊 종합 개요", "👥 참가자 구성 �
 
 with tab1:
     st.markdown('<div class="chart-container">', unsafe_allow_html=True)
-    st.markdown("## 📊 종합 개요")
+    st.markdown('<h2 class="chart-title">📊 종합 개요</h2>', unsafe_allow_html=True)
     
     # KPI 카드들
     col1, col2, col3, col4 = st.columns(4)
@@ -315,17 +700,41 @@ with tab1:
     
     # ROI 상세 분석
     st.markdown('<div class="chart-container">', unsafe_allow_html=True)
-    st.markdown("### 💰 ROI 380% 상세 분석")
+    st.markdown('<h3 class="chart-title">💰 ROI 380% 상세 분석</h3>', unsafe_allow_html=True)
     
     col1, col2, col3, col4 = st.columns(4)
+    
     with col1:
-        st.metric("직접비용 비중", "40%", "강사료, 운영비")
+        st.markdown("""
+        <div class="roi-card">
+            <div class="roi-value">40%</div>
+            <div class="roi-label">직접비용 비중</div>
+        </div>
+        """, unsafe_allow_html=True)
+    
     with col2:
-        st.metric("간접비용 비중", "60%", "참가자 시간, 기회비용")
+        st.markdown("""
+        <div class="roi-card">
+            <div class="roi-value">60%</div>
+            <div class="roi-label">간접비용 비중</div>
+        </div>
+        """, unsafe_allow_html=True)
+    
     with col3:
-        st.metric("일반교육 ROI", "150%", "업계 평균")
+        st.markdown("""
+        <div class="roi-card">
+            <div class="roi-value">150%</div>
+            <div class="roi-label">일반교육 ROI</div>
+        </div>
+        """, unsafe_allow_html=True)
+    
     with col4:
-        st.metric("3년차 예상 ROI", "500%", "누적 효과")
+        st.markdown("""
+        <div class="roi-card">
+            <div class="roi-value">500%</div>
+            <div class="roi-label">3년차 예상 ROI</div>
+        </div>
+        """, unsafe_allow_html=True)
     
     st.markdown('</div>', unsafe_allow_html=True)
     
@@ -334,7 +743,7 @@ with tab1:
     
     with col1:
         st.markdown('<div class="chart-container">', unsafe_allow_html=True)
-        st.markdown("### 📈 회차별 만족도 추이")
+        st.markdown('<h3 class="chart-title">📈 회차별 만족도 추이</h3>', unsafe_allow_html=True)
         
         fig_satisfaction = go.Figure()
         fig_satisfaction.add_trace(go.Scatter(
@@ -354,7 +763,8 @@ with tab1:
             font_color='white',
             yaxis_range=[0, 5],
             showlegend=False,
-            margin=dict(l=0, r=0, t=0, b=0)
+            margin=dict(l=0, r=0, t=0, b=0),
+            height=400
         )
         
         fig_satisfaction.update_xaxes(gridcolor='rgba(255,255,255,0.1)')
@@ -365,7 +775,7 @@ with tab1:
     
     with col2:
         st.markdown('<div class="chart-container">', unsafe_allow_html=True)
-        st.markdown("### 📊 회차별 추천률 변화")
+        st.markdown('<h3 class="chart-title">📊 회차별 추천률 변화</h3>', unsafe_allow_html=True)
         
         colors = ['#a855f7', '#ec4899', '#06b6d4', '#10b981']
         
@@ -375,7 +785,8 @@ with tab1:
             y=session_data['추천률'],
             marker_color=colors,
             text=session_data['추천률'].astype(str) + '%',
-            textposition='outside'
+            textposition='outside',
+            marker_line=dict(color=['#d8b4fe', '#f9a8d4', '#67e8f9', '#6ee7b7'], width=2)
         ))
         
         fig_recommendation.update_layout(
@@ -384,7 +795,8 @@ with tab1:
             font_color='white',
             yaxis_range=[0, 105],
             showlegend=False,
-            margin=dict(l=0, r=0, t=0, b=0)
+            margin=dict(l=0, r=0, t=0, b=0),
+            height=400
         )
         
         fig_recommendation.update_xaxes(gridcolor='rgba(255,255,255,0.1)')
@@ -395,14 +807,14 @@ with tab1:
     
     # 주요 성과 요약
     st.markdown('<div class="chart-container">', unsafe_allow_html=True)
-    st.markdown("### 🎯 주요 성과 요약")
+    st.markdown('<h3 class="chart-title">🎯 주요 성과 요약</h3>', unsafe_allow_html=True)
     
     col1, col2, col3 = st.columns(3)
     
     with col1:
         st.markdown("""
         <div class="insight-card">
-            <div class="insight-title">🎯 교육 효과성</div>
+            <div class="insight-title icon-target">교육 효과성</div>
             <ul>
                 <li>만족도 4.5/5점으로 목표 대비 125% 달성</li>
                 <li>추천률 95.1%로 업계 최고 수준</li>
@@ -414,7 +826,7 @@ with tab1:
     with col2:
         st.markdown("""
         <div class="insight-card">
-            <div class="insight-title">📊 참가자 특성</div>
+            <div class="insight-title icon-chart">참가자 특성</div>
             <ul>
                 <li>SK하이닉스 임직원 중심 구성 (76%)</li>
                 <li>시니어(10년+) 71.2% 참여로 질적 수준 확보</li>
@@ -426,7 +838,7 @@ with tab1:
     with col3:
         st.markdown("""
         <div class="insight-card">
-            <div class="insight-title">🔄 기술 트렌드 제공</div>
+            <div class="insight-title icon-cycle">기술 트렌드 제공</div>
             <ul>
                 <li>광통신 → 유리기판 → AI메모리 → NAND</li>
                 <li>신기술에서 응용기술로 진화</li>
@@ -442,7 +854,7 @@ with tab2:
     
     # 회차별 참가자 구성 변화
     st.markdown('<div class="chart-container">', unsafe_allow_html=True)
-    st.markdown("### 📈 회차별 참가자 구성 변화")
+    st.markdown('<h3 class="chart-title">📈 회차별 참가자 구성 변화</h3>', unsafe_allow_html=True)
     
     # 세션별 구성 표시
     col1, col2, col3, col4 = st.columns(4)
@@ -454,24 +866,24 @@ with tab2:
         ("4회차 (9.2-3)", "AI X 차세대 NAND", [29, 24, 18], ["R&D", "사업전략", "제조/기술"])
     ]
     
-    colors_dept = ['#a855f7', '#06b6d4', '#10b981']
+    colors_dept = ['linear-gradient(90deg, #a855f7, #ec4899)', 'linear-gradient(90deg, #06b6d4, #0ea5e9)', 'linear-gradient(90deg, #10b981, #059669)']
     
     for i, (col, (title, topic, values, labels)) in enumerate(zip([col1, col2, col3, col4], sessions_info)):
         with col:
             st.markdown(f"""
-            <div style="background: rgba(255, 255, 255, 0.06); padding: 1rem; border-radius: 16px; margin: 0.5rem 0;">
-                <div style="color: #a855f7; font-weight: 600; margin-bottom: 0.5rem;">{title}</div>
-                <div style="color: #9ca3af; font-size: 0.8rem; margin-bottom: 1rem; font-style: italic;">{topic}</div>
+            <div class="session-composition">
+                <div class="session-title">{title}</div>
+                <div class="session-topic">{topic}</div>
             """, unsafe_allow_html=True)
             
             for j, (label, value) in enumerate(zip(labels, values)):
                 st.markdown(f"""
-                <div style="margin: 0.5rem 0; display: flex; align-items: center;">
-                    <div style="width: 60px; font-size: 0.8rem; color: #e5e7eb;">{label}</div>
-                    <div style="flex: 1; height: 8px; background: rgba(255,255,255,0.1); border-radius: 10px; margin: 0 8px; overflow: hidden;">
-                        <div style="height: 100%; width: {value}%; background: {colors_dept[j]}; border-radius: 10px;"></div>
+                <div class="dept-bar">
+                    <div class="dept-name">{label}</div>
+                    <div class="dept-progress">
+                        <div class="dept-fill" style="width: {value}%; background: {colors_dept[j]};"></div>
                     </div>
-                    <div style="font-size: 0.8rem; color: #d1d5db; min-width: 30px;">{value}%</div>
+                    <div class="dept-percent">{value}%</div>
                 </div>
                 """, unsafe_allow_html=True)
             
@@ -483,7 +895,7 @@ with tab2:
     
     with col1:
         st.markdown('<div class="chart-container">', unsafe_allow_html=True)
-        st.markdown("### 📊 직군별 참여 추이")
+        st.markdown('<h3 class="chart-title">📊 직군별 참여 추이</h3>', unsafe_allow_html=True)
         
         fig_dept = go.Figure()
         
@@ -513,7 +925,8 @@ with tab2:
                 xanchor="right",
                 x=1
             ),
-            margin=dict(l=0, r=0, t=0, b=0)
+            margin=dict(l=0, r=0, t=0, b=0),
+            height=400
         )
         
         fig_dept.update_xaxes(gridcolor='rgba(255,255,255,0.1)')
@@ -524,7 +937,7 @@ with tab2:
     
     with col2:
         st.markdown('<div class="chart-container">', unsafe_allow_html=True)
-        st.markdown("### 🎯 경력별 참여 분포")
+        st.markdown('<h3 class="chart-title">🎯 경력별 참여 분포</h3>', unsafe_allow_html=True)
         
         experience_data = ['10년 이상', '5-10년', '5년 미만']
         experience_values = [71.2, 18.5, 10.3]
@@ -544,7 +957,8 @@ with tab2:
             paper_bgcolor='rgba(0,0,0,0)',
             font_color='white',
             showlegend=False,
-            margin=dict(l=0, r=0, t=0, b=0)
+            margin=dict(l=0, r=0, t=0, b=0),
+            height=400
         )
         
         st.plotly_chart(fig_exp, use_container_width=True)
@@ -555,7 +969,7 @@ with tab3:
     
     # 감정 분석 대시보드
     st.markdown('<div class="chart-container">', unsafe_allow_html=True)
-    st.markdown("### 😊 감정 분석 대시보드")
+    st.markdown('<h3 class="chart-title">😊 감정 분석 대시보드</h3>', unsafe_allow_html=True)
     
     col1, col2, col3 = st.columns(3)
     
@@ -605,7 +1019,7 @@ with tab3:
     
     # 키워드 분석
     st.markdown('<div class="chart-container">', unsafe_allow_html=True)
-    st.markdown("### 🔍 주요 피드백 키워드 분석")
+    st.markdown('<h3 class="chart-title">🔍 주요 피드백 키워드 분석</h3>', unsafe_allow_html=True)
     
     keywords_data = {
         '전체': ['양자컴퓨팅', 'AI', '데이터센터', '차세대 메모리', '반도체', '기술 트렌드', 'NAND', '유리기판', '발열 해결'],
@@ -627,7 +1041,7 @@ with tab3:
     
     with col1:
         st.markdown('<div class="chart-container">', unsafe_allow_html=True)
-        st.markdown("### 📊 회차별 감정 분석")
+        st.markdown('<h3 class="chart-title">📊 회차별 감정 분석</h3>', unsafe_allow_html=True)
         
         sentiment_data = {
             '회차': session_data['회차'],
@@ -663,7 +1077,8 @@ with tab3:
                 xanchor="right",
                 x=1
             ),
-            margin=dict(l=0, r=0, t=0, b=0)
+            margin=dict(l=0, r=0, t=0, b=0),
+            height=400
         )
         
         fig_sentiment.update_xaxes(gridcolor='rgba(255,255,255,0.1)')
@@ -674,7 +1089,7 @@ with tab3:
     
     with col2:
         st.markdown('<div class="chart-container">', unsafe_allow_html=True)
-        st.markdown("### 🎯 주요 요청 사항 분포")
+        st.markdown('<h3 class="chart-title">🎯 주요 요청 사항 분포</h3>', unsafe_allow_html=True)
         
         request_labels = ['양자컴퓨팅', 'AI/데이터센터', '차세대 메모리', '발열 해결', '기타']
         request_values = [35, 25, 20, 15, 5]
@@ -694,19 +1109,67 @@ with tab3:
             paper_bgcolor='rgba(0,0,0,0)',
             font_color='white',
             showlegend=False,
-            margin=dict(l=0, r=0, t=0, b=0)
+            margin=dict(l=0, r=0, t=0, b=0),
+            height=400
         )
         
         st.plotly_chart(fig_request, use_container_width=True)
         st.markdown('</div>', unsafe_allow_html=True)
+    
+    # 피드백 인사이트
+    st.markdown('<div class="chart-container">', unsafe_allow_html=True)
+    st.markdown('<h3 class="chart-title">💡 피드백 인사이트</h3>', unsafe_allow_html=True)
+    
+    col1, col2, col3 = st.columns(3)
+    
+    with col1:
+        st.markdown("""
+        <div class="insight-card">
+            <div class="insight-title icon-target">가장 많이 요청된 주제</div>
+            <ul>
+                <li>양자컴퓨팅 관련 기술 (12건)</li>
+                <li>AI 데이터센터 및 발열 해결 (8건)</li>
+                <li>차세대 메모리 기술 (7건)</li>
+                <li>반도체 미래 전망 (6건)</li>
+            </ul>
+        </div>
+        """, unsafe_allow_html=True)
+    
+    with col2:
+        st.markdown("""
+        <div class="insight-card">
+            <div class="insight-title icon-gear">주요 개선 포인트</div>
+            <ul>
+                <li>질의응답 시간 확대 (5건)</li>
+                <li>지역별 접근성 개선 (3건)</li>
+                <li>화면 표시 개선 (3건)</li>
+                <li>강의자료 사전 배포 (2건)</li>
+            </ul>
+        </div>
+        """, unsafe_allow_html=True)
+    
+    with col3:
+        st.markdown("""
+        <div class="insight-card">
+            <div class="insight-title icon-lightbulb">만족 요인</div>
+            <ul>
+                <li>전문가 구성의 우수성</li>
+                <li>최신 기술 트렌드 제공</li>
+                <li>이해하기 쉬운 설명</li>
+                <li>기술 인사이트 향상에 도움</li>
+            </ul>
+        </div>
+        """, unsafe_allow_html=True)
+    
+    st.markdown('</div>', unsafe_allow_html=True)
 
 with tab4:
     st.markdown("## 💡 전략적 인사이트")
     
     # 교육 개요
     st.markdown("""
-    <div class="hrd-section">
-        <div class="hrd-title">📚 Next Chip Talk 교육 개요</div>
+    <div class="education-overview">
+        <div class="education-title">📚 Next Chip Talk 교육 개요</div>
     </div>
     """, unsafe_allow_html=True)
     
@@ -714,16 +1177,16 @@ with tab4:
     
     with col1:
         st.markdown("""
-        <div class="insight-card">
-            <div class="insight-title">🎯 교육 목적</div>
+        <div class="education-item">
+            <h4>🎯 교육 목적</h4>
             <p>급변하는 반도체 패러다임에 대응하기 위하여 근미래에 상용화될 가능성이 높은 반도체 기술을 조망하고, 
             최신 연구 동향과 기술적 난제에 대한 이해를 높여 기술 인사이트 향상을 목표로 함.</p>
         </div>
         """, unsafe_allow_html=True)
         
         st.markdown("""
-        <div class="insight-card">
-            <div class="insight-title">📚 학습 방식</div>
+        <div class="education-item">
+            <h4>📚 학습 방식</h4>
             <ul>
                 <li>현장 참여 세미나</li>
                 <li>온라인 생중계를 통한 실시간 웨비나</li>
@@ -734,16 +1197,16 @@ with tab4:
     
     with col2:
         st.markdown("""
-        <div class="insight-card">
-            <div class="insight-title">👥 수강 대상</div>
+        <div class="education-item">
+            <h4>👥 수강 대상</h4>
             <p>반도체 관련 멤버사의 기술/개발 및 전략/마케팅 구성원, 반도체 신기술 및 신사업에 대한 
             기술 동향 지식이 필요한 구성원 (기본적인 반도체 공정 기술에 대한 이해 필요)</p>
         </div>
         """, unsafe_allow_html=True)
         
         st.markdown("""
-        <div class="insight-card">
-            <div class="insight-title">🎬 학습 구성</div>
+        <div class="education-item">
+            <h4>🎬 학습 구성</h4>
             <ul>
                 <li>모더레이터의 주제 키노트</li>
                 <li>전문가 강연 (학계 + 산업계)</li>
@@ -754,38 +1217,25 @@ with tab4:
     
     # HRD 기반 교육 전략
     st.markdown('<div class="chart-container">', unsafe_allow_html=True)
-    st.markdown("### 🚀 HRD 기반 교육 전략")
+    st.markdown('<h3 class="chart-title">🚀 HRD 기반 교육 전략</h3>', unsafe_allow_html=True)
     
-    col1, col2 = st.columns(2)
+    col1, col2, col3 = st.columns(3)
     
     with col1:
         st.markdown("""
         <div class="insight-card">
-            <div class="insight-title">📈 참가자 확보 전략</div>
+            <div class="insight-title icon-growth">참가자 확보 전략</div>
             <ul>
                 <li>타겟 직군별 맞춤 마케팅 (R&D 40%, 사업전략 35%)</li>
                 <li>시즌별 참여도 분석 반영 (가을철 참여도 하락 대응)</li>
                 <li>조직의 Needs와 고객의 Wants를 반영하기 위한 정기적 고객 조사 실시</li>
-                <li>다양한 기업문화와 학습 선호도를 고려한 참여 확산 전략</li>
             </ul>
         </div>
         """, unsafe_allow_html=True)
         
         st.markdown("""
         <div class="insight-card">
-            <div class="insight-title">⚙️ 운영 혁신</div>
-            <ul>
-                <li>실시간 Q&A 화면 표시 시스템 도입</li>
-                <li>지역별 접근성 개선 (청주, 이천 고려)</li>
-                <li>강의자료 사전/사후 제공 체계</li>
-                <li>질의응답 시간 30% 확대 (현재 + 추가 30분)</li>
-            </ul>
-        </div>
-        """, unsafe_allow_html=True)
-        
-        st.markdown("""
-        <div class="insight-card">
-            <div class="insight-title">🔄 지속가능성 확보</div>
+            <div class="insight-title icon-loop">지속가능성 확보</div>
             <ul>
                 <li>기술 전문가 네트워킹 플랫폼 구축</li>
                 <li>분기별 기술 동향 레포트 제공</li>
@@ -798,7 +1248,7 @@ with tab4:
     with col2:
         st.markdown("""
         <div class="insight-card">
-            <div class="insight-title">🎯 기술 인사이트 강화</div>
+            <div class="insight-title icon-target">기술 인사이트 강화</div>
             <ul>
                 <li>양자컴퓨팅 전문 세션 신설 (수요 35% 반영)</li>
                 <li>AI 데이터센터 심화 과정 (발열/냉각 기술 포함)</li>
@@ -810,7 +1260,20 @@ with tab4:
         
         st.markdown("""
         <div class="insight-card">
-            <div class="insight-title">💰 ROI 평가 체계</div>
+            <div class="insight-title icon-gear">운영 혁신</div>
+            <ul>
+                <li>실시간 Q&A 화면 표시 시스템 도입</li>
+                <li>지역별 접근성 개선 (청주, 이천 고려)</li>
+                <li>강의자료 사전/사후 제공 체계</li>
+                <li>질의응답 시간 30% 확대</li>
+            </ul>
+        </div>
+        """, unsafe_allow_html=True)
+    
+    with col3:
+        st.markdown("""
+        <div class="insight-card">
+            <div class="insight-title icon-money">ROI 평가 체계</div>
             <ul>
                 <li>Kirkpatrick-Phillips 5단계 모델 기반 체계적 평가</li>
                 <li>직접비용(강사료, 운영비) 대비 간접효과(업무생산성, 혁신창출) 측정</li>
@@ -824,7 +1287,7 @@ with tab4:
     
     # Kirkpatrick 평가 모델
     st.markdown('<div class="chart-container">', unsafe_allow_html=True)
-    st.markdown("### 📊 Kirkpatrick-Phillips 5단계 평가 및 목표")
+    st.markdown('<h3 class="chart-title">📊 Kirkpatrick-Phillips 5단계 평가 및 목표</h3>', unsafe_allow_html=True)
     
     kirkpatrick_data = pd.DataFrame({
         '평가단계': ['Level1 반응', 'Level2 학습', 'Level3 인사이트', 'Level4 결과', 'Level5 ROI'],
@@ -877,36 +1340,31 @@ with tab4:
             xanchor="center",
             x=0.5
         ),
-        margin=dict(l=0, r=0, t=0, b=0)
+        margin=dict(l=0, r=0, t=0, b=0),
+        height=500
     )
     
     st.plotly_chart(fig_kirkpatrick, use_container_width=True)
     
     # HRD 평가 모델 설명
     st.markdown("""
-    <div class="insight-card">
-        <div class="insight-title">🎯 HRD 평가 모델 기반 교육 효과성 분석</div>
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;">
-            <div>
-                <h5 style="color: #ffffff; margin-bottom: 10px; font-size: 0.95rem;">Level 1-2: 반응 및 학습</h5>
-                <p style="color: #d1d5db; font-size: 0.9rem; line-height: 1.5;">
-                    참가자 만족도 4.5/5점, 추천률 95.1%로 교육에 대한 즉각적 반응이 매우 긍정적. 
-                    기술 이해도 향상과 새로운 지식 습득이 효과적으로 이루어짐.
-                </p>
+    <div class="hrd-analysis">
+        <h4>🎯 HRD 평가 모델 기반 교육 효과성 분석</h4>
+        <div class="hrd-grid">
+            <div class="hrd-item">
+                <h5>Level 1-2: 반응 및 학습</h5>
+                <p>참가자 만족도 4.5/5점, 추천률 95.1%로 교육에 대한 즉각적 반응이 매우 긍정적. 
+                기술 이해도 향상과 새로운 지식 습득이 효과적으로 이루어짐.</p>
             </div>
-            <div>
-                <h5 style="color: #ffffff; margin-bottom: 10px; font-size: 0.95rem;">Level 3: 행동 변화 (인사이트)</h5>
-                <p style="color: #d1d5db; font-size: 0.9rem; line-height: 1.5;">
-                    참가자들의 기술 트렌드 감각 향상과 업무 접근 방식 개선이 관찰됨. 
-                    후속 연구 및 프로젝트 기획에 교육 내용이 반영되는 사례 증가.
-                </p>
+            <div class="hrd-item">
+                <h5>Level 3: 행동 변화 (인사이트)</h5>
+                <p>참가자들의 기술 트렌드 감각 향상과 업무 접근 방식 개선이 관찰됨. 
+                후속 연구 및 프로젝트 기획에 교육 내용이 반영되는 사례 증가.</p>
             </div>
-            <div>
-                <h5 style="color: #ffffff; margin-bottom: 10px; font-size: 0.95rem;">Level 4-5: 결과 및 ROI</h5>
-                <p style="color: #d1d5db; font-size: 0.9rem; line-height: 1.5;">
-                    기술 인사이트 향상을 통한 혁신 프로젝트 발굴과 의사결정 품질 개선. 
-                    교육 투자 대비 조직 성과 창출 효과가 지속적으로 증가하는 추세.
-                </p>
+            <div class="hrd-item">
+                <h5>Level 4-5: 결과 및 ROI</h5>
+                <p>기술 인사이트 향상을 통한 혁신 프로젝트 발굴과 의사결정 품질 개선. 
+                교육 투자 대비 조직 성과 창출 효과가 지속적으로 증가하는 추세.</p>
             </div>
         </div>
     </div>
