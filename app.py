@@ -1143,7 +1143,7 @@ with tab4:
     # HRD 평가 모델 설명
     st.markdown("""
     <div class="hrd-analysis">
-        <h4>🎯 HRD 평가 모델 기반 교육 효과성 분석</h4>
+        <h4><div class="icon-target"></div> HRD 평가 모델 기반 교육 효과성 분석</h4>
         <div class="hrd-grid">
             <div class="hrd-item">
                 <h5>Level 1-2: 반응 및 학습</h5>
@@ -1168,8 +1168,8 @@ with tab4:
 st.markdown("---")
 st.markdown(f"""
 <div style="text-align: center; color: #9ca3af; font-size: 0.9rem; padding: 1rem;">
-    📊 Next Chip Talk 교육 성과 분석 대시보드 | 
-    🕒 마지막 업데이트: {datetime.now().strftime('%Y-%m-%d %H:%M')} | 
-    💡 HRD 이론 기반 분석
+    <div class="icon-chart-line"></div> Next Chip Talk 교육 성과 분석 대시보드 | 
+    <div class="icon-lightbulb"></div> 마지막 업데이트: {datetime.now().strftime('%Y-%m-%d %H:%M')} | 
+    <div class="icon-target"></div> HRD 이론 기반 분석
 </div>
 """, unsafe_allow_html=True)
