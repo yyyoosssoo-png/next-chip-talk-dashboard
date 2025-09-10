@@ -13,19 +13,17 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# 커스텀 CSS 스타일 (새로운 레퍼런스 기반)
+# 수정된 커스텀 CSS 스타일
 st.markdown("""
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Noto+Sans+KR:wght@300;400;500;600;700&display=swap');
     
-    /* 전체 앱 배경 */
+    /* 전체 앱 배경 - 스파클링 효과 제거하고 안정적인 배경으로 변경 */
     .stApp {
-        background: linear-gradient(135deg, #000000 0%, #0a0a1a 30%, #1a1a2e 70%, #0a0a1a 100%);
+        background: linear-gradient(135deg, #0f0f23 0%, #1a1a3e 25%, #2d1b69 50%, #1a1a3e 75%, #0f0f23 100%);
         background-size: 400% 400%;
-        animation: gradientShift 20s ease infinite;
+        animation: gradientShift 15s ease infinite;
         color: #ffffff;
-        position: relative;
-        overflow-x: hidden;
     }
     
     @keyframes gradientShift {
@@ -34,40 +32,10 @@ st.markdown("""
         100% { background-position: 0% 50%; }
     }
     
-    /* 스파클링 배경 효과 */
-    .stApp::before {
-        content: '';
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: 
-            radial-gradient(2px 2px at 20px 30px, rgba(255, 255, 255, 0.8), transparent),
-            radial-gradient(2px 2px at 40px 70px, rgba(168, 85, 247, 0.6), transparent),
-            radial-gradient(1px 1px at 90px 40px, rgba(255, 255, 255, 0.4), transparent),
-            radial-gradient(1px 1px at 130px 80px, rgba(236, 72, 153, 0.5), transparent),
-            radial-gradient(2px 2px at 160px 30px, rgba(255, 255, 255, 0.3), transparent),
-            radial-gradient(1px 1px at 200px 90px, rgba(6, 182, 212, 0.4), transparent),
-            radial-gradient(1px 1px at 250px 50px, rgba(255, 255, 255, 0.6), transparent),
-            radial-gradient(2px 2px at 300px 20px, rgba(168, 85, 247, 0.3), transparent),
-            radial-gradient(1px 1px at 350px 60px, rgba(255, 255, 255, 0.5), transparent);
-        background-repeat: repeat;
-        background-size: 350px 200px;
-        animation: sparkle 25s linear infinite;
-        pointer-events: none;
-        z-index: -1;
-    }
-    
-    @keyframes sparkle {
-        0% { transform: translate(0, 0); }
-        100% { transform: translate(-350px, -200px); }
-    }
-    
     /* 메인 컨테이너 */
     .main .block-container {
-        padding-top: 1rem;
-        padding-bottom: 1rem;
+        padding-top: 2rem;
+        padding-bottom: 2rem;
         max-width: 1400px;
     }
     
@@ -100,11 +68,6 @@ st.markdown("""
         transition: all 0.3s ease;
     }
     
-    .logo-fallback:hover {
-        transform: translateY(-5px);
-        text-shadow: 0 20px 40px rgba(168, 85, 247, 0.4);
-    }
-    
     .main-title {
         font-family: 'Orbitron', monospace;
         font-size: 2.4rem;
@@ -132,7 +95,7 @@ st.markdown("""
         box-shadow: 0 0 20px rgba(168, 85, 247, 0.5);
     }
     
-    /* 탭 스타일 개선 */
+    /* 탭 스타일 */
     .stTabs [data-baseweb="tab-list"] {
         background: rgba(255, 255, 255, 0.08);
         border-radius: 16px;
@@ -146,28 +109,11 @@ st.markdown("""
     .stTabs [data-baseweb="tab"] {
         background: transparent;
         border-radius: 12px;
-        color: #d1d5db;
+        color: #d1d5db !important;
         font-weight: 500;
         font-family: 'Noto Sans KR', sans-serif;
         transition: all 0.4s ease;
-        position: relative;
-        overflow: hidden;
         padding: 16px 20px;
-    }
-    
-    .stTabs [data-baseweb="tab"]::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: -100%;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-        transition: left 0.6s ease;
-    }
-    
-    .stTabs [data-baseweb="tab"]:hover::before {
-        left: 100%;
     }
     
     .stTabs [aria-selected="true"] {
@@ -226,7 +172,6 @@ st.markdown("""
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         margin-bottom: 12px;
-        text-shadow: 0 0 30px rgba(168, 85, 247, 0.5);
     }
     
     .kpi-label {
@@ -279,7 +224,7 @@ st.markdown("""
         border-radius: 1px;
     }
     
-    /* 인사이트 카드 개선 */
+    /* 인사이트 카드 */
     .insight-card {
         background: rgba(255, 255, 255, 0.06);
         padding: 25px;
@@ -288,7 +233,6 @@ st.markdown("""
         margin: 1rem 0;
         border: 1px solid rgba(255, 255, 255, 0.08);
         transition: all 0.3s ease;
-        position: relative;
     }
     
     .insight-card:hover {
@@ -302,93 +246,15 @@ st.markdown("""
         font-weight: 600;
         font-size: 1.1rem;
         margin-bottom: 1rem;
-        display: flex;
-        align-items: center;
-        gap: 10px;
     }
     
-    /* 인사이트 아이콘 스타일 */
-    .icon-target::before {
-        content: '';
-        width: 16px;
-        height: 16px;
-        background: linear-gradient(135deg, #a855f7, #ec4899);
-        clip-path: circle(50%);
-        display: inline-block;
-        margin-right: 8px;
+    .insight-card ul {
+        color: #e5e7eb;
+        line-height: 1.6;
     }
     
-    .icon-chart::before {
-        content: '';
-        width: 16px;
-        height: 16px;
-        background: linear-gradient(135deg, #06b6d4, #10b981);
-        clip-path: polygon(0% 100%, 0% 60%, 25% 40%, 50% 70%, 75% 20%, 100% 50%, 100% 100%);
-        display: inline-block;
-        margin-right: 8px;
-    }
-    
-    .icon-cycle::before {
-        content: '';
-        width: 16px;
-        height: 16px;
-        background: linear-gradient(135deg, #10b981, #f59e0b);
-        border-radius: 50%;
-        border: 2px solid #10b981;
-        display: inline-block;
-        margin-right: 8px;
-    }
-    
-    .icon-growth::before {
-        content: '';
-        width: 16px;
-        height: 16px;
-        background: linear-gradient(135deg, #ec4899, #a855f7);
-        clip-path: polygon(0% 100%, 20% 60%, 40% 80%, 60% 40%, 80% 60%, 100% 0%, 100% 100%);
-        display: inline-block;
-        margin-right: 8px;
-    }
-    
-    .icon-gear::before {
-        content: '';
-        width: 16px;
-        height: 16px;
-        background: linear-gradient(135deg, #06b6d4, #ec4899);
-        clip-path: polygon(50% 0%, 80% 10%, 100% 35%, 90% 70%, 65% 100%, 35% 100%, 10% 70%, 0% 35%, 20% 10%);
-        display: inline-block;
-        margin-right: 8px;
-    }
-    
-    .icon-lightbulb::before {
-        content: '';
-        width: 16px;
-        height: 16px;
-        background: linear-gradient(135deg, #f59e0b, #a855f7);
-        clip-path: circle(40%);
-        filter: drop-shadow(0 0 6px rgba(245, 158, 11, 0.6));
-        display: inline-block;
-        margin-right: 8px;
-    }
-    
-    .icon-money::before {
-        content: '';
-        width: 16px;
-        height: 16px;
-        background: linear-gradient(135deg, #f59e0b, #ec4899);
-        clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%);
-        display: inline-block;
-        margin-right: 8px;
-    }
-    
-    .icon-loop::before {
-        content: '';
-        width: 16px;
-        height: 16px;
-        background: linear-gradient(135deg, #10b981, #06b6d4);
-        border-radius: 50%;
-        border: 3px solid transparent;
-        display: inline-block;
-        margin-right: 8px;
+    .insight-card li {
+        margin-bottom: 8px;
     }
     
     /* 감정 분석 카드들 */
@@ -530,7 +396,6 @@ st.markdown("""
         height: 100%;
         border-radius: 10px;
         transition: width 0.8s ease;
-        box-shadow: 0 0 10px rgba(168, 85, 247, 0.3);
     }
     
     .dept-percent {
@@ -538,29 +403,6 @@ st.markdown("""
         min-width: 35px;
         color: #d1d5db;
         font-weight: 500;
-    }
-    
-    /* 메트릭 스타일 오버라이드 */
-    [data-testid="metric-container"] {
-        background: rgba(255, 255, 255, 0.08);
-        border: 1px solid rgba(255, 255, 255, 0.12);
-        padding: 1rem;
-        border-radius: 20px;
-        backdrop-filter: blur(20px);
-    }
-    
-    [data-testid="metric-container"] > div {
-        color: #ffffff;
-    }
-    
-    /* 사이드바 숨기기 */
-    .css-1d391kg {
-        display: none;
-    }
-    
-    /* 텍스트 색상 */
-    .stMarkdown, .stText {
-        color: #ffffff;
     }
     
     /* ROI 분석 카드 */
@@ -618,6 +460,46 @@ st.markdown("""
         font-size: 0.9rem;
         line-height: 1.5;
     }
+    
+    /* Streamlit 기본 요소들 스타일 조정 */
+    .stMarkdown, .stText {
+        color: #ffffff !important;
+    }
+    
+    h1, h2, h3, h4, h5, h6 {
+        color: #ffffff !important;
+    }
+    
+    .stSelectbox > div > div {
+        background-color: rgba(255, 255, 255, 0.1);
+        color: #ffffff;
+    }
+    
+    /* 사이드바 숨기기 */
+    section[data-testid="stSidebar"] {
+        display: none;
+    }
+    
+    /* 메트릭 컨테이너 스타일 */
+    [data-testid="metric-container"] {
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        padding: 1rem;
+        border-radius: 20px;
+        backdrop-filter: blur(20px);
+    }
+    
+    [data-testid="metric-container"] > div {
+        color: #ffffff !important;
+    }
+    
+    [data-testid="metric-container"] [data-testid="metric-value"] {
+        color: #ffffff !important;
+    }
+    
+    [data-testid="metric-container"] [data-testid="metric-label"] {
+        color: #d1d5db !important;
+    }
 </style>
 """, unsafe_allow_html=True)
 
@@ -654,8 +536,7 @@ session_data = load_data()
 tab1, tab2, tab3, tab4 = st.tabs(["📊 종합 개요", "👥 참가자 구성 변화", "💬 피드백 분석", "💡 전략적 인사이트"])
 
 with tab1:
-    st.markdown('<div class="chart-container">', unsafe_allow_html=True)
-    st.markdown('<h2 class="chart-title">📊 종합 개요</h2>', unsafe_allow_html=True)
+    st.markdown("## 📊 종합 개요")
     
     # KPI 카드들
     col1, col2, col3, col4 = st.columns(4)
@@ -696,54 +577,25 @@ with tab1:
         </div>
         """, unsafe_allow_html=True)
     
-    st.markdown('</div>', unsafe_allow_html=True)
-    
     # ROI 상세 분석
-    st.markdown('<div class="chart-container">', unsafe_allow_html=True)
-    st.markdown('<h3 class="chart-title">💰 ROI 380% 상세 분석</h3>', unsafe_allow_html=True)
+    st.markdown("### 💰 ROI 380% 상세 분석")
     
     col1, col2, col3, col4 = st.columns(4)
     
     with col1:
-        st.markdown("""
-        <div class="roi-card">
-            <div class="roi-value">40%</div>
-            <div class="roi-label">직접비용 비중</div>
-        </div>
-        """, unsafe_allow_html=True)
-    
+        st.metric("직접비용 비중", "40%", "강사료, 운영비")
     with col2:
-        st.markdown("""
-        <div class="roi-card">
-            <div class="roi-value">60%</div>
-            <div class="roi-label">간접비용 비중</div>
-        </div>
-        """, unsafe_allow_html=True)
-    
+        st.metric("간접비용 비중", "60%", "참가자 시간, 기회비용")
     with col3:
-        st.markdown("""
-        <div class="roi-card">
-            <div class="roi-value">150%</div>
-            <div class="roi-label">일반교육 ROI</div>
-        </div>
-        """, unsafe_allow_html=True)
-    
+        st.metric("일반교육 ROI", "150%", "업계 평균")
     with col4:
-        st.markdown("""
-        <div class="roi-card">
-            <div class="roi-value">500%</div>
-            <div class="roi-label">3년차 예상 ROI</div>
-        </div>
-        """, unsafe_allow_html=True)
-    
-    st.markdown('</div>', unsafe_allow_html=True)
+        st.metric("3년차 예상 ROI", "500%", "누적 효과")
     
     # 차트들
     col1, col2 = st.columns(2)
     
     with col1:
-        st.markdown('<div class="chart-container">', unsafe_allow_html=True)
-        st.markdown('<h3 class="chart-title">📈 회차별 만족도 추이</h3>', unsafe_allow_html=True)
+        st.markdown("#### 📈 회차별 만족도 추이")
         
         fig_satisfaction = go.Figure()
         fig_satisfaction.add_trace(go.Scatter(
@@ -763,7 +615,6 @@ with tab1:
             font_color='white',
             yaxis_range=[0, 5],
             showlegend=False,
-            margin=dict(l=0, r=0, t=0, b=0),
             height=400
         )
         
@@ -771,11 +622,9 @@ with tab1:
         fig_satisfaction.update_yaxes(gridcolor='rgba(255,255,255,0.1)')
         
         st.plotly_chart(fig_satisfaction, use_container_width=True)
-        st.markdown('</div>', unsafe_allow_html=True)
     
     with col2:
-        st.markdown('<div class="chart-container">', unsafe_allow_html=True)
-        st.markdown('<h3 class="chart-title">📊 회차별 추천률 변화</h3>', unsafe_allow_html=True)
+        st.markdown("#### 📊 회차별 추천률 변화")
         
         colors = ['#a855f7', '#ec4899', '#06b6d4', '#10b981']
         
@@ -785,8 +634,7 @@ with tab1:
             y=session_data['추천률'],
             marker_color=colors,
             text=session_data['추천률'].astype(str) + '%',
-            textposition='outside',
-            marker_line=dict(color=['#d8b4fe', '#f9a8d4', '#67e8f9', '#6ee7b7'], width=2)
+            textposition='outside'
         ))
         
         fig_recommendation.update_layout(
@@ -795,7 +643,6 @@ with tab1:
             font_color='white',
             yaxis_range=[0, 105],
             showlegend=False,
-            margin=dict(l=0, r=0, t=0, b=0),
             height=400
         )
         
@@ -803,18 +650,16 @@ with tab1:
         fig_recommendation.update_yaxes(gridcolor='rgba(255,255,255,0.1)')
         
         st.plotly_chart(fig_recommendation, use_container_width=True)
-        st.markdown('</div>', unsafe_allow_html=True)
     
     # 주요 성과 요약
-    st.markdown('<div class="chart-container">', unsafe_allow_html=True)
-    st.markdown('<h3 class="chart-title">🎯 주요 성과 요약</h3>', unsafe_allow_html=True)
+    st.markdown("### 🎯 주요 성과 요약")
     
     col1, col2, col3 = st.columns(3)
     
     with col1:
         st.markdown("""
         <div class="insight-card">
-            <div class="insight-title icon-target">교육 효과성</div>
+            <div class="insight-title">🎯 교육 효과성</div>
             <ul>
                 <li>만족도 4.5/5점으로 목표 대비 125% 달성</li>
                 <li>추천률 95.1%로 업계 최고 수준</li>
@@ -826,7 +671,7 @@ with tab1:
     with col2:
         st.markdown("""
         <div class="insight-card">
-            <div class="insight-title icon-chart">참가자 특성</div>
+            <div class="insight-title">📊 참가자 특성</div>
             <ul>
                 <li>SK하이닉스 임직원 중심 구성 (76%)</li>
                 <li>시니어(10년+) 71.2% 참여로 질적 수준 확보</li>
@@ -838,7 +683,7 @@ with tab1:
     with col3:
         st.markdown("""
         <div class="insight-card">
-            <div class="insight-title icon-cycle">기술 트렌드 제공</div>
+            <div class="insight-title">🔄 기술 트렌드 제공</div>
             <ul>
                 <li>광통신 → 유리기판 → AI메모리 → NAND</li>
                 <li>신기술에서 응용기술로 진화</li>
@@ -846,15 +691,12 @@ with tab1:
             </ul>
         </div>
         """, unsafe_allow_html=True)
-    
-    st.markdown('</div>', unsafe_allow_html=True)
 
 with tab2:
     st.markdown("## 👥 참가자 구성 변화")
     
     # 회차별 참가자 구성 변화
-    st.markdown('<div class="chart-container">', unsafe_allow_html=True)
-    st.markdown('<h3 class="chart-title">📈 회차별 참가자 구성 변화</h3>', unsafe_allow_html=True)
+    st.markdown("### 📈 회차별 참가자 구성 변화")
     
     # 세션별 구성 표시
     col1, col2, col3, col4 = st.columns(4)
@@ -889,13 +731,10 @@ with tab2:
             
             st.markdown("</div>", unsafe_allow_html=True)
     
-    st.markdown('</div>', unsafe_allow_html=True)
-    
     col1, col2 = st.columns(2)
     
     with col1:
-        st.markdown('<div class="chart-container">', unsafe_allow_html=True)
-        st.markdown('<h3 class="chart-title">📊 직군별 참여 추이</h3>', unsafe_allow_html=True)
+        st.markdown("#### 📊 직군별 참여 추이")
         
         fig_dept = go.Figure()
         
@@ -918,14 +757,6 @@ with tab2:
             font_color='white',
             yaxis_range=[0, 60],
             yaxis_title='참여 비율 (%)',
-            legend=dict(
-                orientation="h",
-                yanchor="bottom",
-                y=1.02,
-                xanchor="right",
-                x=1
-            ),
-            margin=dict(l=0, r=0, t=0, b=0),
             height=400
         )
         
@@ -933,11 +764,9 @@ with tab2:
         fig_dept.update_yaxes(gridcolor='rgba(255,255,255,0.1)')
         
         st.plotly_chart(fig_dept, use_container_width=True)
-        st.markdown('</div>', unsafe_allow_html=True)
     
     with col2:
-        st.markdown('<div class="chart-container">', unsafe_allow_html=True)
-        st.markdown('<h3 class="chart-title">🎯 경력별 참여 분포</h3>', unsafe_allow_html=True)
+        st.markdown("#### 🎯 경력별 참여 분포")
         
         experience_data = ['10년 이상', '5-10년', '5년 미만']
         experience_values = [71.2, 18.5, 10.3]
@@ -957,19 +786,16 @@ with tab2:
             paper_bgcolor='rgba(0,0,0,0)',
             font_color='white',
             showlegend=False,
-            margin=dict(l=0, r=0, t=0, b=0),
             height=400
         )
         
         st.plotly_chart(fig_exp, use_container_width=True)
-        st.markdown('</div>', unsafe_allow_html=True)
 
 with tab3:
     st.markdown("## 💬 피드백 분석")
     
     # 감정 분석 대시보드
-    st.markdown('<div class="chart-container">', unsafe_allow_html=True)
-    st.markdown('<h3 class="chart-title">😊 감정 분석 대시보드</h3>', unsafe_allow_html=True)
+    st.markdown("### 😊 감정 분석 대시보드")
     
     col1, col2, col3 = st.columns(3)
     
@@ -1015,11 +841,8 @@ with tab3:
         </div>
         """, unsafe_allow_html=True)
     
-    st.markdown('</div>', unsafe_allow_html=True)
-    
     # 키워드 분석
-    st.markdown('<div class="chart-container">', unsafe_allow_html=True)
-    st.markdown('<h3 class="chart-title">🔍 주요 피드백 키워드 분석</h3>', unsafe_allow_html=True)
+    st.markdown("### 🔍 주요 피드백 키워드 분석")
     
     keywords_data = {
         '전체': ['양자컴퓨팅', 'AI', '데이터센터', '차세대 메모리', '반도체', '기술 트렌드', 'NAND', '유리기판', '발열 해결'],
@@ -1035,13 +858,10 @@ with tab3:
         keywords = keywords_data[selected_session]
         st.markdown(f"**{selected_session} 주요 키워드**: " + " • ".join([f"**{kw}**" for kw in keywords]))
     
-    st.markdown('</div>', unsafe_allow_html=True)
-    
     col1, col2 = st.columns(2)
     
     with col1:
-        st.markdown('<div class="chart-container">', unsafe_allow_html=True)
-        st.markdown('<h3 class="chart-title">📊 회차별 감정 분석</h3>', unsafe_allow_html=True)
+        st.markdown("#### 📊 회차별 감정 분석")
         
         sentiment_data = {
             '회차': session_data['회차'],
@@ -1070,14 +890,6 @@ with tab3:
             plot_bgcolor='rgba(0,0,0,0)',
             paper_bgcolor='rgba(0,0,0,0)',
             font_color='white',
-            legend=dict(
-                orientation="h",
-                yanchor="bottom",
-                y=1.02,
-                xanchor="right",
-                x=1
-            ),
-            margin=dict(l=0, r=0, t=0, b=0),
             height=400
         )
         
@@ -1085,11 +897,9 @@ with tab3:
         fig_sentiment.update_yaxes(gridcolor='rgba(255,255,255,0.1)')
         
         st.plotly_chart(fig_sentiment, use_container_width=True)
-        st.markdown('</div>', unsafe_allow_html=True)
     
     with col2:
-        st.markdown('<div class="chart-container">', unsafe_allow_html=True)
-        st.markdown('<h3 class="chart-title">🎯 주요 요청 사항 분포</h3>', unsafe_allow_html=True)
+        st.markdown("#### 🎯 주요 요청 사항 분포")
         
         request_labels = ['양자컴퓨팅', 'AI/데이터센터', '차세대 메모리', '발열 해결', '기타']
         request_values = [35, 25, 20, 15, 5]
@@ -1109,23 +919,20 @@ with tab3:
             paper_bgcolor='rgba(0,0,0,0)',
             font_color='white',
             showlegend=False,
-            margin=dict(l=0, r=0, t=0, b=0),
             height=400
         )
         
         st.plotly_chart(fig_request, use_container_width=True)
-        st.markdown('</div>', unsafe_allow_html=True)
     
     # 피드백 인사이트
-    st.markdown('<div class="chart-container">', unsafe_allow_html=True)
-    st.markdown('<h3 class="chart-title">💡 피드백 인사이트</h3>', unsafe_allow_html=True)
+    st.markdown("### 💡 피드백 인사이트")
     
     col1, col2, col3 = st.columns(3)
     
     with col1:
         st.markdown("""
         <div class="insight-card">
-            <div class="insight-title icon-target">가장 많이 요청된 주제</div>
+            <div class="insight-title">🎯 가장 많이 요청된 주제</div>
             <ul>
                 <li>양자컴퓨팅 관련 기술 (12건)</li>
                 <li>AI 데이터센터 및 발열 해결 (8건)</li>
@@ -1138,7 +945,7 @@ with tab3:
     with col2:
         st.markdown("""
         <div class="insight-card">
-            <div class="insight-title icon-gear">주요 개선 포인트</div>
+            <div class="insight-title">⚙️ 주요 개선 포인트</div>
             <ul>
                 <li>질의응답 시간 확대 (5건)</li>
                 <li>지역별 접근성 개선 (3건)</li>
@@ -1151,7 +958,7 @@ with tab3:
     with col3:
         st.markdown("""
         <div class="insight-card">
-            <div class="insight-title icon-lightbulb">만족 요인</div>
+            <div class="insight-title">💡 만족 요인</div>
             <ul>
                 <li>전문가 구성의 우수성</li>
                 <li>최신 기술 트렌드 제공</li>
@@ -1160,8 +967,6 @@ with tab3:
             </ul>
         </div>
         """, unsafe_allow_html=True)
-    
-    st.markdown('</div>', unsafe_allow_html=True)
 
 with tab4:
     st.markdown("## 💡 전략적 인사이트")
@@ -1216,31 +1021,31 @@ with tab4:
         """, unsafe_allow_html=True)
     
     # HRD 기반 교육 전략
-    st.markdown('<div class="chart-container">', unsafe_allow_html=True)
-    st.markdown('<h3 class="chart-title">🚀 HRD 기반 교육 전략</h3>', unsafe_allow_html=True)
+    st.markdown("### 🚀 HRD 기반 교육 전략")
     
     col1, col2, col3 = st.columns(3)
     
     with col1:
         st.markdown("""
         <div class="insight-card">
-            <div class="insight-title icon-growth">참가자 확보 전략</div>
+            <div class="insight-title">📈 참가자 확보 전략</div>
             <ul>
-                <li>타겟 직군별 맞춤 마케팅 (R&D 40%, 사업전략 35%)</li>
-                <li>시즌별 참여도 분석 반영 (가을철 참여도 하락 대응)</li>
-                <li>조직의 Needs와 고객의 Wants를 반영하기 위한 정기적 고객 조사 실시</li>
+                <li>타겟 직군별 맞춤 마케팅</li>
+                <li>시즌별 참여도 분석 반영</li>
+                <li>정기적 고객 조사 실시</li>
+                <li>다양한 기업문화 고려</li>
             </ul>
         </div>
         """, unsafe_allow_html=True)
         
         st.markdown("""
         <div class="insight-card">
-            <div class="insight-title icon-loop">지속가능성 확보</div>
+            <div class="insight-title">🔄 지속가능성 확보</div>
             <ul>
-                <li>기술 전문가 네트워킹 플랫폼 구축</li>
-                <li>분기별 기술 동향 레포트 제공</li>
-                <li>mySUNI 커뮤니티 기반 후속 스터디 도입</li>
-                <li>글로벌 반도체 교육 허브로 발전</li>
+                <li>기술 전문가 네트워킹 플랫폼</li>
+                <li>분기별 기술 동향 레포트</li>
+                <li>mySUNI 커뮤니티 스터디</li>
+                <li>글로벌 반도체 교육 허브</li>
             </ul>
         </div>
         """, unsafe_allow_html=True)
@@ -1248,23 +1053,23 @@ with tab4:
     with col2:
         st.markdown("""
         <div class="insight-card">
-            <div class="insight-title icon-target">기술 인사이트 강화</div>
+            <div class="insight-title">🎯 기술 인사이트 강화</div>
             <ul>
-                <li>양자컴퓨팅 전문 세션 신설 (수요 35% 반영)</li>
-                <li>AI 데이터센터 심화 과정 (발열/냉각 기술 포함)</li>
-                <li>차세대 메모리 기술 시리즈 구성</li>
-                <li>기술 트렌드 감각 향상 중심 콘텐츠</li>
+                <li>양자컴퓨팅 전문 세션 신설</li>
+                <li>AI 데이터센터 심화 과정</li>
+                <li>차세대 메모리 기술 시리즈</li>
+                <li>기술 트렌드 감각 향상</li>
             </ul>
         </div>
         """, unsafe_allow_html=True)
         
         st.markdown("""
         <div class="insight-card">
-            <div class="insight-title icon-gear">운영 혁신</div>
+            <div class="insight-title">⚙️ 운영 혁신</div>
             <ul>
-                <li>실시간 Q&A 화면 표시 시스템 도입</li>
-                <li>지역별 접근성 개선 (청주, 이천 고려)</li>
-                <li>강의자료 사전/사후 제공 체계</li>
+                <li>실시간 Q&A 화면 표시</li>
+                <li>지역별 접근성 개선</li>
+                <li>강의자료 사전/사후 제공</li>
                 <li>질의응답 시간 30% 확대</li>
             </ul>
         </div>
@@ -1273,21 +1078,18 @@ with tab4:
     with col3:
         st.markdown("""
         <div class="insight-card">
-            <div class="insight-title icon-money">ROI 평가 체계</div>
+            <div class="insight-title">💰 ROI 평가 체계</div>
             <ul>
-                <li>Kirkpatrick-Phillips 5단계 모델 기반 체계적 평가</li>
-                <li>직접비용(강사료, 운영비) 대비 간접효과(업무생산성, 혁신창출) 측정</li>
-                <li>참가자 교육 전후 성과 변화 추적 시스템 구축</li>
-                <li>장기 누적효과 극대화를 위한 3년 단위 평가 계획</li>
+                <li>Kirkpatrick-Phillips 5단계 모델</li>
+                <li>직접/간접 비용 측정</li>
+                <li>교육 전후 성과 추적</li>
+                <li>3년 단위 평가 계획</li>
             </ul>
         </div>
         """, unsafe_allow_html=True)
     
-    st.markdown('</div>', unsafe_allow_html=True)
-    
     # Kirkpatrick 평가 모델
-    st.markdown('<div class="chart-container">', unsafe_allow_html=True)
-    st.markdown('<h3 class="chart-title">📊 Kirkpatrick-Phillips 5단계 평가 및 목표</h3>', unsafe_allow_html=True)
+    st.markdown("### 📊 Kirkpatrick-Phillips 5단계 평가 및 목표")
     
     kirkpatrick_data = pd.DataFrame({
         '평가단계': ['Level1 반응', 'Level2 학습', 'Level3 인사이트', 'Level4 결과', 'Level5 ROI'],
@@ -1333,14 +1135,6 @@ with tab4:
         paper_bgcolor='rgba(0,0,0,0)',
         font_color='white',
         showlegend=True,
-        legend=dict(
-            orientation="h",
-            yanchor="bottom",
-            y=-0.1,
-            xanchor="center",
-            x=0.5
-        ),
-        margin=dict(l=0, r=0, t=0, b=0),
         height=500
     )
     
@@ -1369,8 +1163,6 @@ with tab4:
         </div>
     </div>
     """, unsafe_allow_html=True)
-    
-    st.markdown('</div>', unsafe_allow_html=True)
 
 # 푸터
 st.markdown("---")
