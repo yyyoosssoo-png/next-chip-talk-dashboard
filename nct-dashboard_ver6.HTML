@@ -150,7 +150,7 @@
             align-items: center;
             justify-content: center;
             gap: 8px;
-            /* [수정됨] 요청에 따라 폰트 크기를 확대했습니다. */
+            /* [수정 3] 요청에 따라 폰트 크기를 확대했습니다. */
             font-size: 1.6rem; 
         }
         
@@ -917,11 +917,392 @@
             </div>
         </div>
 
+        <div id="composition" class="tab-content">
+            <div class="chart-grid">
+                <div class="chart-container">
+                    <div class="chart-title">소속별 참가자 구성</div>
+                    <canvas id="affiliationChart"></canvas>
+                </div>
+                <div class="chart-container">
+                    <div class="chart-title">직무별 참가자 분포</div>
+                    <canvas id="jobChart"></canvas>
+                </div>
+                <div class="chart-container">
+                    <div class="chart-title">경력별 참가자 분포</div>
+                    <canvas id="experienceChart"></canvas>
+                </div>
+            </div>
+            <div class="composition-evolution">
+                <div class="chart-title">회차별 참가 부서 구성 변화</div>
+                <div class="evolution-grid">
+                    <div class="session-composition">
+                        <div class="session-title">1회차<br>(광통신)</div>
+                        <div class="dept-bar"><span class="dept-name">R&D</span><div class="dept-progress"><div class="dept-fill" style="width: 60%; background: #a855f7;"></div></div><span class="dept-percent">60%</span></div>
+                        <div class="dept-bar"><span class="dept-name">사업전략</span><div class="dept-progress"><div class="dept-fill" style="width: 30%; background: #ec4899;"></div></div><span class="dept-percent">30%</span></div>
+                        <div class="dept-bar"><span class="dept-name">제조기술</span><div class="dept-progress"><div class="dept-fill" style="width: 10%; background: #06b6d4;"></div></div><span class="dept-percent">10%</span></div>
+                    </div>
+                    <div class="session-composition">
+                        <div class="session-title">2회차<br>(유리기판)</div>
+                        <div class="dept-bar"><span class="dept-name">R&D</span><div class="dept-progress"><div class="dept-fill" style="width: 55%; background: #a855f7;"></div></div><span class="dept-percent">55%</span></div>
+                        <div class="dept-bar"><span class="dept-name">사업전략</span><div class="dept-progress"><div class="dept-fill" style="width: 25%; background: #ec4899;"></div></div><span class="dept-percent">25%</span></div>
+                        <div class="dept-bar"><span class="dept-name">제조기술</span><div class="dept-progress"><div class="dept-fill" style="width: 20%; background: #06b6d4;"></div></div><span class="dept-percent">20%</span></div>
+                    </div>
+                    <div class="session-composition">
+                        <div class="session-title">3회차<br>(AI메모리)</div>
+                        <div class="dept-bar"><span class="dept-name">R&D</span><div class="dept-progress"><div class="dept-fill" style="width: 40%; background: #a855f7;"></div></div><span class="dept-percent">40%</span></div>
+                        <div class="dept-bar"><span class="dept-name">사업전략</span><div class="dept-progress"><div class="dept-fill" style="width: 40%; background: #ec4899;"></div></div><span class="dept-percent">40%</span></div>
+                        <div class="dept-bar"><span class="dept-name">제조기술</span><div class="dept-progress"><div class="dept-fill" style="width: 20%; background: #06b6d4;"></div></div><span class="dept-percent">20%</span></div>
+                    </div>
+                    <div class="session-composition">
+                        <div class="session-title">4회차<br>(NAND)</div>
+                        <div class="dept-bar"><span class="dept-name">R&D</span><div class="dept-progress"><div class="dept-fill" style="width: 30%; background: #a855f7;"></div></div><span class="dept-percent">30%</span></div>
+                        <div class="dept-bar"><span class="dept-name">사업전략</span><div class="dept-progress"><div class="dept-fill" style="width: 30%; background: #ec4899;"></div></div><span class="dept-percent">30%</span></div>
+                        <div class="dept-bar"><span class="dept-name">제조기술</span><div class="dept-progress"><div class="dept-fill" style="width: 40%; background: #06b6d4;"></div></div><span class="dept-percent">40%</span></div>
+                    </div>
+                </div>
+            </div>
         </div>
 
+        <div id="feedback" class="tab-content">
+            <div class="wordcloud-container">
+                <div class="chart-title">주요 피드백 키워드 (Word Cloud)</div>
+                <div class="session-filter">
+                    <button class="filter-btn active" onclick="filterWordcloud('all')">전체</button>
+                    <button class="filter-btn" onclick="filterWordcloud('session1')">1회차</button>
+                    <button class="filter-btn" onclick="filterWordcloud('session2')">2회차</button>
+                    <button class="filter-btn" onclick="filterWordcloud('session3')">3회차</button>
+                    <button class="filter-btn" onclick="filterWordcloud('session4')">4회차</button>
+                </div>
+                <canvas id="wordcloudCanvas" width="1000" height="400"></canvas>
+            </div>
+            <div class="sentiment-dashboard">
+                <div class="sentiment-card positive">
+                    <div class="sentiment-header">
+                        <div class="sentiment-icon">😊</div>
+                        <div class="sentiment-title">긍정적 피드백</div>
+                    </div>
+                    <div class="sentiment-count">82%</div>
+                    <div class="sentiment-examples">"인사이트", "쉽게 설명", "새로운 관점", "실무 도움"</div>
+                </div>
+                <div class="sentiment-card negative">
+                    <div class="sentiment-header">
+                        <div class="sentiment-icon">😟</div>
+                        <div class="sentiment-title">개선 요청</div>
+                    </div>
+                    <div class="sentiment-count">8%</div>
+                    <div class="sentiment-examples">"시간 부족", "심화 내용", "Q&A 확대", "사전 자료"</div>
+                </div>
+                <div class="sentiment-card neutral">
+                    <div class="sentiment-header">
+                        <div class="sentiment-icon">😐</div>
+                        <div class="sentiment-title">중립적 의견</div>
+                    </div>
+                    <div class="sentiment-count">10%</div>
+                    <div class="sentiment-examples">"난이도 적절", "주제 흥미", "추가 교육 희망"</div>
+                </div>
+            </div>
+        </div>
+
+        <div id="insights" class="tab-content">
+            <div class="education-overview">
+                <div class="education-title">교육 목표 및 주요 성과</div>
+                <div class="education-grid">
+                    <div class="education-item">
+                        <h4>교육 목표</h4>
+                        <ul>
+                            <li>미래 반도체 신기술 및 트렌드 이해</li>
+                            <li>Next & Grey 영역 기술적 인사이트 확보</li>
+                            <li>SK하이닉스 미래 사업 방향성 연계</li>
+                        </ul>
+                    </div>
+                    <div class="education-item">
+                        <h4>주요 교육 내용</h4>
+                        <ul>
+                            <li>광통신 기술과 반도체 산업</li>
+                            <li>차세대 패키징: 유리기판 기술</li>
+                            <li>AI 시대의 메모리 반도체 혁신</li>
+                            <li>NAND 플래시 기술의 진화</li>
+                        </ul>
+                    </div>
+                    <div class="education-item">
+                        <h4>핵심 성과</h4>
+                        <p>
+                            시니어급(10년 이상) 임직원 71.2%가 참여하여 교육의 질적 수준을 높였으며, 
+                            전략 및 R&D 부서 중심의 참여가 기술 기반의 미래 사업 논의를 촉진했습니다.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="insight-section">
+                <div class="insight-title">인사이트 및 제언</div>
+                <div class="insight-grid">
+                    <div class="insight-card">
+                        <h4 data-icon="growth" class="clickable" onclick="toggleDetail('req1')">참가자 구성의 진화 ▶</h4>
+                        <ul>
+                            <li>초기 R&D 중심에서 사업전략, 제조기술로 확산</li>
+                            <li>이는 기술 이해가 전사적으로 필요해짐을 의미</li>
+                        </ul>
+                        <div id="req1" class="request-detail">
+                            <h5>세부 제언</h5>
+                            <ul>
+                                <li>직무별 맞춤형 심화 세션(Advanced Track) 개설</li>
+                                <li>타 직무와의 네트워킹 강화 프로그램 도입</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="insight-card">
+                        <h4 data-icon="lightbulb" class="clickable" onclick="toggleDetail('req2')">교육 만족도와 개선점 ▶</h4>
+                        <ul>
+                            <li>지속적으로 높은 만족도와 추천률 유지</li>
+                            <li>반복적으로 '심화 내용'과 'Q&A 시간 확대' 요청</li>
+                        </ul>
+                        <div id="req2" class="request-detail">
+                            <h5>세부 제언</h5>
+                            <ul>
+                                <li>정규 세션 외, 특정 주제를 깊게 다루는 'Deep Dive' 워크샵 개최</li>
+                                <li>사전 질문 접수 및 연사와의 'Office Hour' 운영</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="insight-card">
+                        <h4 data-icon="money" class="clickable" onclick="toggleDetail('req3')">교육 효과 및 ROI 제고 ▶</h4>
+                        <ul>
+                            <li>교육 내용의 '실무 연관성'에 대한 높은 긍정 평가</li>
+                            <li>교육이 실제 업무 개선이나 신규 아이디어로 이어지는 사례 발굴 필요</li>
+                        </ul>
+                        <div id="req3" class="request-detail">
+                            <h5>세부 제언</h5>
+                            <ul>
+                                <li>교육 내용 기반의 '사내 아이디어톤' 또는 '프로젝트 제안' 제도 연계</li>
+                                <li>교육 3개월 후, 실무 적용 사례 및 성과 추적 설문 실시</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="insight-card">
+                        <h4 data-icon="loop" class="clickable" onclick="toggleDetail('req4')">지속가능한 교육 체계 ▶</h4>
+                        <ul>
+                            <li>신기술 트렌드를 신속하게 반영하는 주제 선정 방식이 주효</li>
+                            <li>교육 콘텐츠의 자산화 및 재활용 방안 모색</li>
+                        </ul>
+                        <div id="req4" class="request-detail">
+                            <h5>세부 제언</h5>
+                            <ul>
+                                <li>핵심 내용을 담은 VOD 라이브러리 구축</li>
+                                <li>이전 세션 수강생 대상의 'Advanced Alumni' 커뮤니티 운영</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
-    // 스크립트 부분은 이전과 동일합니다...
-    // ... (전체 스크립트가 너무 길어 생략) ...
+        // 초기 탭 설정
+        document.addEventListener('DOMContentLoaded', function() {
+            showTab('overview');
+            initializeCharts();
+            setTimeout(() => { // WordCloud 라이브러리 로딩 시간 확보
+                 generateWordcloud(wordcloudData.all);
+            }, 500);
+        });
+
+        // 탭 전환 함수
+        function showTab(tabName) {
+            const tabs = document.querySelectorAll('.nav-tab');
+            const contents = document.querySelectorAll('.tab-content');
+
+            tabs.forEach(tab => {
+                if (tab.dataset.tab === tabName) {
+                    tab.classList.add('active');
+                } else {
+                    tab.classList.remove('active');
+                }
+            });
+
+            contents.forEach(content => {
+                if (content.id === tabName) {
+                    content.classList.add('active');
+                } else {
+                    content.classList.remove('active');
+                }
+            });
+        }
+
+        // 제언 상세내용 토글 함수
+        function toggleDetail(reqId) {
+            const detail = document.getElementById(reqId);
+            detail.classList.toggle('active');
+        }
+
+        // 차트 데이터 및 생성
+        const chartColors = {
+            gradient1: (ctx) => {
+                const gradient = ctx.createLinearGradient(0, 0, 0, 400);
+                gradient.addColorStop(0, 'rgba(168, 85, 247, 0.8)');
+                gradient.addColorStop(1, 'rgba(236, 72, 153, 0.3)');
+                return gradient;
+            },
+            gradient2: (ctx) => {
+                const gradient = ctx.createLinearGradient(0, 0, 0, 400);
+                gradient.addColorStop(0, 'rgba(6, 182, 212, 0.8)');
+                gradient.addColorStop(1, 'rgba(16, 185, 129, 0.3)');
+                return gradient;
+            },
+            pieColors: ['#a855f7', '#ec4899', '#06b6d4', '#10b981', '#f59e0b', '#6366f1']
+        };
+
+        function initializeCharts() {
+            // 만족도 추이 차트
+            new Chart(document.getElementById('satisfactionChart'), {
+                type: 'line',
+                data: {
+                    labels: ['1회차', '2회차', '3회차', '4회차'],
+                    datasets: [{
+                        label: '만족도 (5점 만점)',
+                        data: [4.4, 4.6, 4.5, 4.5],
+                        borderColor: '#a855f7',
+                        backgroundColor: chartColors.gradient1(document.getElementById('satisfactionChart').getContext('2d')),
+                        fill: true,
+                        tension: 0.4,
+                        pointBackgroundColor: '#ffffff',
+                        pointBorderColor: '#a855f7',
+                        pointHoverRadius: 7,
+                        pointHoverBackgroundColor: '#a855f7',
+                    }]
+                },
+                options: {
+                     responsive: true, maintainAspectRatio: false,
+                     plugins: { legend: { labels: { color: '#ffffff' }}},
+                     scales: { 
+                         y: { beginAtZero: true, max: 5, grid: { color: 'rgba(255,255,255,0.1)' }, ticks: { color: '#ffffff' }},
+                         x: { grid: { color: 'rgba(255,255,255,0.1)' }, ticks: { color: '#ffffff' }}
+                     }
+                }
+            });
+
+            // 추천률 변화 차트
+            new Chart(document.getElementById('recommendationChart'), {
+                type: 'bar',
+                data: {
+                    labels: ['1회차', '2회차', '3회차', '4회차'],
+                    datasets: [{
+                        label: '추천률 (%)',
+                        data: [94.3, 96.1, 95.0, 95.0],
+                        backgroundColor: chartColors.gradient2(document.getElementById('recommendationChart').getContext('2d')),
+                        borderColor: '#06b6d4',
+                        borderWidth: 1,
+                        borderRadius: 5,
+                    }]
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    plugins: { legend: { labels: { color: '#ffffff' }}},
+                    scales: { 
+                         y: { beginAtZero: true, max: 100, grid: { color: 'rgba(255,255,255,0.1)' }, ticks: { color: '#ffffff' }},
+                         x: { grid: { color: 'rgba(255,255,255,0.1)' }, ticks: { color: '#ffffff' }}
+                     }
+                }
+            });
+
+            // 소속별 참가자 구성 (도넛)
+            new Chart(document.getElementById('affiliationChart'), {
+                type: 'doughnut',
+                data: {
+                    labels: ['SK하이닉스', '협력사', '학계', '기타'],
+                    datasets: [{
+                        data: [76, 14, 7, 3],
+                        backgroundColor: chartColors.pieColors,
+                        borderColor: '#1a1a2e',
+                        borderWidth: 3
+                    }]
+                },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { color: '#ffffff' }}}}
+            });
+
+            // 직무별 참가자 분포 (파이)
+            new Chart(document.getElementById('jobChart'), {
+                type: 'pie',
+                data: {
+                    labels: ['R&D', '사업전략/기획', '제조/기술', '영업/마케팅', '기타'],
+                    datasets: [{
+                        data: [45, 25, 20, 5, 5],
+                        backgroundColor: chartColors.pieColors,
+                        borderColor: '#1a1a2e',
+                        borderWidth: 3
+                    }]
+                },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { color: '#ffffff' }}}}
+            });
+
+            // 경력별 참가자 분포 (폴라)
+            new Chart(document.getElementById('experienceChart'), {
+                type: 'polarArea',
+                data: {
+                    labels: ['10년 이상', '5~10년', '3~5년', '3년 미만'],
+                    datasets: [{
+                        data: [71.2, 18.8, 7.5, 2.5],
+                        backgroundColor: chartColors.pieColors.map(c => c + 'B3'), // Add alpha
+                        borderColor: '#ffffff',
+                    }]
+                },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { color: '#ffffff' }}},
+                scales: { r: { grid: { color: 'rgba(255,255,255,0.2)'}, ticks: { color: '#ffffff', backdropColor: 'transparent' }}}
+                }
+            });
+        }
+
+        // 워드클라우드 데이터
+        const wordcloudData = {
+            all: [['인사이트', 25], ['기술', 22], ['시장', 20], ['트렌드', 18], ['이해', 17], ['도움', 16], ['관점', 15], ['쉽게', 14], ['설명', 13], ['미래', 12], ['반도체', 11], ['심화', 9], ['시간', 8], ['질문', 7]],
+            session1: [['광통신', 15], ['데이터센터', 12], ['CXL', 10], ['네트워킹', 9], ['미래', 8]],
+            session2: [['유리기판', 18], ['패키징', 15], ['차세대', 12], ['TGV', 10], ['공정', 8]],
+            session3: [['AI', 20], ['HBM', 18], ['메모리', 16], ['성능', 12], ['전력', 10], ['LLM', 9]],
+            session4: [['NAND', 16], ['V-NAND', 14], ['고단화', 12], ['신뢰성', 10], ['컨트롤러', 9]]
+        };
+
+        // 워드클라우드 생성 함수
+        function generateWordcloud(data) {
+            const canvas = document.getElementById('wordcloudCanvas');
+            const ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, canvas.width, canvas.height); // 이전 클라우드 지우기
+
+            if (window.WordCloud) {
+                WordCloud(canvas, {
+                    list: data,
+                    gridSize: Math.round(18 * canvas.width / 1024),
+                    weightFactor: function (size) {
+                        return Math.pow(size, 2.2) * canvas.width / 1024;
+                    },
+                    fontFamily: "'Noto Sans KR', sans-serif",
+                    color: function (word, weight) {
+                        const colors = ['#a855f7', '#ec4899', '#06b6d4', '#10b981', '#f59e0b'];
+                        return colors[Math.floor(Math.random() * colors.length)];
+                    },
+                    rotateRatio: 0.4,
+                    rotationSteps: 2,
+                    backgroundColor: 'transparent'
+                });
+            } else {
+                // WordCloud 라이브러리가 로드되지 않은 경우 대체 텍스트 표시
+                ctx.font = '24px "Noto Sans KR"';
+                ctx.fillStyle = '#a855f7';
+                ctx.textAlign = 'center';
+                ctx.fillText('워드클라우드 로딩 중...', canvas.width/2, canvas.height/2);
+            }
+        }
+
+        // 워드클라우드 필터링 함수
+        function filterWordcloud(session) {
+            const buttons = document.querySelectorAll('.filter-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            // event.target이 아닌, 클릭된 버튼을 명시적으로 찾아 active 클래스 추가
+            document.querySelector(`.filter-btn[onclick="filterWordcloud('${session}')"]`).classList.add('active');
+            
+            const data = wordcloudData[session] || wordcloudData.all;
+            generateWordcloud(data);
+        }
     </script>
 </body>
 </html>
