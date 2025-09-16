@@ -151,7 +151,6 @@
             align-items: center;
             justify-content: center;
             gap: 8px;
-            /* [수정 3] 탭의 폰트 크기를 적절한 수준으로 키웠습니다. (이 값을 조절하여 크기 변경 가능) */
             font-size: 1.25rem; 
         }
         
@@ -169,7 +168,7 @@
         }
         
         .nav-tab[data-tab="composition"]::before {
-            background: linear-gradient(135deg, #06b6d4, #10b981);
+            background: linear-gradient(135deg, #06b6d4, #10b6d4);
             clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
         }
         
@@ -311,6 +310,8 @@
             border: 1px solid rgba(255, 255, 255, 0.12);
             transition: all 0.3s ease;
             position: relative;
+            /* [수정] 차트 깨짐 방지를 위해 높이를 지정합니다. */
+            height: 450px; 
         }
         
         .chart-container:hover {
@@ -346,7 +347,16 @@
             backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.12);
             margin-bottom: 40px;
-            min-height: 450px;
+            /* [수정] 워드클라우드 높이를 명확하게 지정합니다. */
+            height: 500px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        #wordcloudCanvas {
+            /* [수정] 캔버스가 컨테이너에 맞게 유연하게 크기 조절되도록 설정합니다. */
+            width: 100% !important;
+            height: 100% !important;
         }
         
         .session-filter {
@@ -687,14 +697,14 @@
         }
         
         .insight-card h4[data-icon="chart"]::before {
-            background: linear-gradient(135deg, #06b6d4, #10b981);
+            background: linear-gradient(135deg, #06b6d4, #10b6d4);
             clip-path: polygon(0% 100%, 0% 60%, 25% 40%, 50% 70%, 75% 20%, 100% 50%, 100% 100%);
         }
         
         .insight-card h4[data-icon="cycle"]::before {
-            background: linear-gradient(135deg, #10b981, #f59e0b);
+            background: linear-gradient(135deg, #10b6d4, #f59e0b);
             border-radius: 50%;
-            border: 2px solid #10b981;
+            border: 2px solid #10b6d4;
             background-clip: padding-box;
         }
         
@@ -720,7 +730,7 @@
         }
         
         .insight-card h4[data-icon="loop"]::before {
-            background: linear-gradient(135deg, #10b981, #06b6d4);
+            background: linear-gradient(135deg, #10b6d4, #06b6d4);
             border-radius: 50%;
             border: 3px solid transparent;
             background-clip: padding-box;
@@ -974,7 +984,7 @@
                     <button class="filter-btn" onclick="filterWordcloud('session3', this)">3회차</button>
                     <button class="filter-btn" onclick="filterWordcloud('session4', this)">4회차</button>
                 </div>
-                <canvas id="wordcloudCanvas" width="1000" height="400"></canvas>
+                <canvas id="wordcloudCanvas"></canvas>
             </div>
             <div class="sentiment-dashboard">
                 <div class="sentiment-card positive">
@@ -1146,7 +1156,7 @@
                 gradient.addColorStop(1, 'rgba(16, 185, 129, 0.3)');
                 return gradient;
             },
-            pieColors: ['#a855f7', '#ec4899', '#06b6d4', '#10b981', '#f59e0b', '#6366f1']
+            pieColors: ['#a855f7', '#ec4899', '#06b6d4', '#10b6d4', '#f59e0b', '#6366f1']
         };
 
         let charts = {}; // 차트 인스턴스를 저장할 객체
@@ -1266,23 +1276,22 @@
         // 워드클라우드 생성 함수
         function generateWordcloud(data) {
             const canvas = document.getElementById('wordcloudCanvas');
-            const ctx = canvas.getContext('2d');
-            ctx.clearRect(0, 0, canvas.width, canvas.height); // 이전 클라우드 지우기
-
+            // WordCloud 라이브러리가 캔버스 크기를 직접 조절하므로, 옵션에서 크기를 전달
             WordCloud(canvas, {
                 list: data,
-                gridSize: Math.round(16 * canvas.width / 1000),
+                gridSize: 16,
                 weightFactor: function (size) {
-                    return Math.pow(size, 2.3) * canvas.width / 1024;
+                    return Math.pow(size, 2.3) * 1.2; // 크기 가중치 조정
                 },
                 fontFamily: "'Noto Sans KR', sans-serif",
                 color: function (word, weight) {
-                    const colors = ['#a855f7', '#ec4899', '#06b6d4', '#10b981', '#f59e0b', '#ffffff'];
+                    const colors = ['#a855f7', '#ec4899', '#06b6d4', '#10b6d4', '#f59e0b', '#ffffff'];
                     return colors[Math.floor(Math.random() * colors.length)];
                 },
                 rotateRatio: 0.5,
                 rotationSteps: 2,
-                backgroundColor: 'transparent'
+                backgroundColor: 'transparent',
+                shrinkToFit: true // 컨테이너에 맞게 단어 크기를 자동으로 조정
             });
         }
 
