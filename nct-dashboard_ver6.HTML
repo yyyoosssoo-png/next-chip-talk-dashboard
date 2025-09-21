@@ -86,7 +86,8 @@
             max-width: 350px;
             width: 100%;
             height: auto;
-            margin-bottom: 25px;
+            /* [수정] 로고와 하단 내용과의 간격을 위해 margin-bottom 추가 */
+            margin-bottom: 25px; 
             filter: drop-shadow(0 10px 30px rgba(168, 85, 247, 0.3));
             transition: all 0.3s ease;
         }
@@ -96,18 +97,8 @@
             filter: drop-shadow(0 20px 40px rgba(168, 85, 247, 0.4));
         }
         
-        .header h1 {
-            font-family: 'Orbitron', monospace;
-            font-size: 2.4rem;
-            margin: 25px 0 15px 0;
-            color: #ffffff;
-            font-weight: 600;
-            letter-spacing: 0.05em;
-            text-shadow: 0 5px 15px rgba(255, 255, 255, 0.1);
-        }
-        
         .header p {
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             color: #b8b9ff;
             font-weight: 300;
             line-height: 1.6;
@@ -233,7 +224,7 @@
         
         .kpi-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 25px;
             margin-bottom: 40px;
         }
@@ -293,6 +284,39 @@
             font-size: 0.95rem;
             color: #9ca3af;
             opacity: 0.8;
+        }
+
+        /* [추가] 세미나 개요 그리드 스타일 */
+        .seminar-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .seminar-card {
+            background: linear-gradient(135deg, rgba(168, 85, 247, 0.2), rgba(236, 72, 153, 0.2));
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            transition: all 0.3s ease;
+        }
+
+        .seminar-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(168, 85, 247, 0.2);
+        }
+
+        .seminar-card h3 {
+            font-size: 1.3em;
+            margin-bottom: 10px;
+            color: #fff;
+        }
+
+        .seminar-card .date {
+            font-size: 0.9em;
+            color: #d1d5db;
         }
         
         .chart-grid {
@@ -806,7 +830,7 @@
                 max-width: 280px;
             }
             
-            .chart-grid {
+            .chart-grid, .seminar-grid {
                 grid-template-columns: 1fr;
             }
             
@@ -851,7 +875,6 @@
             <div class="logo-area">
                 <img src="https://raw.githubusercontent.com/yyyoosssoo-png/next-chip-talk-dashboard/main/nct-logo.png" alt="Next Chip Talk Logo" class="nct-logo-img">
             </div>
-            <h1>Next Chip Talk 교육 성과 분석</h1>
             <p>2025 미래반도체 Next & Grey 영역 교육 성과</p>
             <div class="accent-line"></div>
         </div>
@@ -864,62 +887,45 @@
         </div>
 
         <div id="overview" class="tab-content active">
+            <div class="seminar-grid">
+                <div class="seminar-card">
+                    <h3>Optical Interconnection</h3>
+                    <p class="date">2025.04.18 (1회차)</p>
+                </div>
+                <div class="seminar-card">
+                    <h3>Glass Substrate</h3>
+                    <p class="date">2025.06.25 (2회차)</p>
+                </div>
+                <div class="seminar-card">
+                    <h3>AI Chip 메모리 시스템</h3>
+                    <p class="date">2025.07.30 (3회차)</p>
+                </div>
+                <div class="seminar-card">
+                    <h3>AI X 차세대 NAND</h3>
+                    <p class="date">2025.09.02 (4회차)</p>
+                </div>
+            </div>
+
             <div class="kpi-grid">
                 <div class="kpi-card">
-                    <div class="kpi-value">118명</div>
+                    <div class="kpi-value">4회차</div>
+                    <div class="kpi-label">세미나 진행</div>
+                    <div class="kpi-desc">주요 신기술 분야</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-value">150+</div>
                     <div class="kpi-label">총 참가자</div>
-                    <div class="kpi-desc">4회차 누적</div>
+                    <div class="kpi-desc">누적 참여 인원</div>
                 </div>
                 <div class="kpi-card">
-                    <div class="kpi-value">4.50</div>
+                    <div class="kpi-value">95%</div>
                     <div class="kpi-label">평균 만족도</div>
-                    <div class="kpi-desc">5점 만점</div>
+                    <div class="kpi-desc">교육 내용 및 구성</div>
                 </div>
-                <div class="kpi-card">
-                    <div class="kpi-value">95.1%</div>
-                    <div class="kpi-label">평균 추천률</div>
-                    <div class="kpi-desc">매우 높은 수준</div>
-                </div>
-            </div>
-
-            <div class="chart-grid">
-                <div class="chart-container">
-                    <div class="chart-title">회차별 만족도 추이</div>
-                    <canvas id="satisfactionChart"></canvas>
-                </div>
-                <div class="chart-container">
-                    <div class="chart-title">회차별 추천률 변화</div>
-                    <canvas id="recommendationChart"></canvas>
-                </div>
-            </div>
-
-            <div class="insight-section">
-                <div class="insight-title">주요 성과 요약</div>
-                <div class="insight-grid">
-                    <div class="insight-card">
-                        <h4 data-icon="target">교육 효과성</h4>
-                        <ul>
-                            <li>만족도 4.5/5점으로 목표 대비 125% 달성</li>
-                            <li>추천률 95.1%로 업계 최고 수준</li>
-                            <li>4회차 연속 안정적 품질 유지</li>
-                        </ul>
-                    </div>
-                    <div class="insight-card">
-                        <h4 data-icon="chart">참가자 특성</h4>
-                        <ul>
-                            <li>SK하이닉스 임직원 중심 구성 (76%)</li>
-                            <li>시니어(10년+) 71.2% 참여로 질적 수준 확보</li>
-                            <li>R&D→사업전략→제조기술 순 참여</li>
-                        </ul>
-                    </div>
-                    <div class="insight-card">
-                        <h4 data-icon="cycle">기술 트렌드 제공</h4>
-                        <ul>
-                            <li>광통신 → 유리기판 → AI메모리 → NAND</li>
-                            <li>신기술에서 응용기술로 진화</li>
-                            <li>시장분석과 기술설명 균형 유지</li>
-                        </ul>
-                    </div>
+                 <div class="kpi-card">
+                    <div class="kpi-value">100%</div>
+                    <div class="kpi-label">추천 의향</div>
+                    <div class="kpi-desc">동료에게 추천</div>
                 </div>
             </div>
         </div>
@@ -1149,7 +1155,6 @@
         }
 
         function initializeAllCharts() {
-            // 만족도 추이 차트
             createChart('satisfactionChart', {
                 type: 'line',
                 data: {
@@ -1165,7 +1170,6 @@
                 options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true, max: 5 } } }
             });
 
-            // 추천률 변화 차트
             createChart('recommendationChart', {
                 type: 'bar',
                 data: {
@@ -1180,7 +1184,6 @@
                 options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true, max: 100 } } }
             });
             
-            // 직무별 참가자 분포 (파이)
             createChart('jobChart', {
                 type: 'pie',
                 data: {
@@ -1190,7 +1193,6 @@
                 options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' }}}
             });
 
-            // 경력별 참가자 분포 (가로 막대그래프)
             createChart('experienceChart', {
                 type: 'bar',
                 data: {
