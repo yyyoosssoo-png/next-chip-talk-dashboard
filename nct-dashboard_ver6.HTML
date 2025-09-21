@@ -96,11 +96,19 @@
             filter: drop-shadow(0 20px 40px rgba(168, 85, 247, 0.4));
         }
         
-        .header p {
+        .header p, .intro-text {
             font-size: 1.2rem;
             color: #b8b9ff;
             font-weight: 300;
             line-height: 1.6;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .intro-text {
+            margin-bottom: 40px;
+            text-align: center;
         }
         
         .accent-line {
@@ -328,37 +336,7 @@
             background: linear-gradient(90deg, #a855f7, #ec4899);
             border-radius: 1px;
         }
-
-        .sessions-box {
-            background: rgba(255, 255, 255, 0.08);
-            padding: 30px;
-            border-radius: 20px;
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            margin-bottom: 40px;
-        }
         
-        .sessions-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
-        }
-
-        .session-item {
-            text-align: center;
-        }
-
-        .session-item h3 {
-            font-size: 1.2em;
-            color: #a855f7;
-            margin-bottom: 8px;
-        }
-
-        .session-item .date {
-            font-size: 0.9em;
-            color: #9ca3af;
-        }
-
         .wordcloud-container {
             background: rgba(255, 255, 255, 0.08);
             padding: 30px;
@@ -600,26 +578,9 @@
             filter: drop-shadow(0 0 8px rgba(245, 158, 11, 0.4));
         }
         
-        .education-overview {
-            background: linear-gradient(135deg, rgba(168, 85, 247, 0.2), rgba(236, 72, 153, 0.2));
-            padding: 35px;
-            border-radius: 20px;
-            margin-bottom: 40px;
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(20px);
-        }
-        
-        .education-title {
-            font-size: 2rem;
-            font-weight: 600;
-            margin-bottom: 30px;
-            text-align: center;
-            color: #ffffff;
-        }
-        
         .education-grid {
             display: grid;
-            grid-template-columns: 1fr;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 25px;
         }
         
@@ -879,29 +840,35 @@
         </div>
 
         <div id="overview" class="tab-content active">
-            <div class="sessions-box">
-                 <div class="chart-title">진행된 세미나</div>
-                 <div class="sessions-list">
-                    <div class="session-item">
-                        <h3>Optical Interconnection</h3>
-                        <p class="date">2025.04.18 (1회차)</p>
-                    </div>
-                    <div class="session-item">
-                        <h3>Glass Substrate</h3>
-                        <p class="date">2025.06.25 (2회차)</p>
-                    </div>
-                    <div class="session-item">
-                        <h3>AI Chip 메모리 시스템</h3>
-                        <p class="date">2025.07.30 (3회차)</p>
-                    </div>
-                    <div class="session-item">
-                        <h3>AI X 차세대 NAND</h3>
-                        <p class="date">2025.09.02 (4회차)</p>
-                    </div>
+            
+            <p class="intro-text">
+                미래 반도체 기술 동향을 선도하는 'Next Chip Talk'는 최신 기술 트렌드와 심층적인 인사이트를 제공하며 참가자들의 뜨거운 관심과 높은 만족도를 이끌어냈습니다. 총 4회에 걸쳐 진행된 세미나의 핵심 성과를 데이터로 확인해보세요.
+            </p>
+
+            <div class="kpi-grid">
+                <div class="kpi-card">
+                    <div class="kpi-value">118명</div>
+                    <div class="kpi-label">총 참가자</div>
+                    <div class="kpi-desc">4회차 누적</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-value">4.50</div>
+                    <div class="kpi-label">평균 만족도</div>
+                    <div class="kpi-desc">5점 만점</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-value">95.1%</div>
+                    <div class="kpi-label">평균 추천률</div>
+                    <div class="kpi-desc">매우 높은 수준</div>
+                </div>
+                 <div class="kpi-card">
+                    <div class="kpi-value">100%</div>
+                    <div class="kpi-label">추천 의향</div>
+                    <div class="kpi-desc">동료에게 추천</div>
                 </div>
             </div>
 
-             <div class="chart-grid">
+            <div class="chart-grid">
                 <div class="chart-container">
                     <div class="chart-title">회차별 만족도 추이</div>
                     <canvas id="satisfactionChart"></canvas>
@@ -909,6 +876,30 @@
                 <div class="chart-container">
                     <div class="chart-title">회차별 추천률 변화</div>
                     <canvas id="recommendationChart"></canvas>
+                </div>
+            </div>
+
+            <div class="insight-section">
+                <div class="insight-title">세미나 효과 요약</div>
+                <div class="education-grid">
+                    <div class="education-item">
+                        <h4>총체적 교육 효과 및 만족도</h4>
+                        <ul>
+                            <li>전체 응답자 중 90% 이상이 "매우 만족" 또는 "만족" 응답</li>
+                            <li>강의 내용, 구성, 운영 모든 영역에서 고른 만족도 확인</li>
+                            <li>전 회차 참가자 100%가 동료 추천 의향 표명</li>
+                            <li>온라인/오프라인 하이브리드 운영에 대한 긍정적 피드백</li>
+                        </ul>
+                    </div>
+                    <div class="education-item">
+                        <h4>미래 기술 리더십 및 지속 성장 가능성</h4>
+                        <ul>
+                            <li>95% 이상 참가자가 "매우 기대됨" 또는 "기대됨" 응답</li>
+                            <li>Next 기술 Insight 향상에 높은 기대감 표명</li>
+                            <li>업무 연관성 및 실무 활용 가능성에 대한 긍정적 평가</li>
+                            <li>향후 세미나 지속 참여에 대한 강한 의지 표출</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
@@ -997,26 +988,8 @@
 
         <div id="insights" class="tab-content">
             <div class="insight-section">
-                <div class="insight-title">교육 효과성 분석</div>
+                <div class="insight-title">교육 효과 분석</div>
                 <div class="education-grid">
-                    <div class="education-item">
-                        <h4>참가자 만족도 현황</h4>
-                        <ul>
-                            <li>전체 응답자 중 90% 이상이 "매우 만족" 또는 "만족" 응답</li>
-                            <li>강의 내용, 구성, 운영 모든 영역에서 고른 만족도 확인</li>
-                            <li>전 회차 참가자 100%가 동료 추천 의향 표명</li>
-                            <li>온라인/오프라인 하이브리드 운영에 대한 긍정적 피드백</li>
-                        </ul>
-                    </div>
-                    <div class="education-item">
-                        <h4>미래 기대효과 및 지속성</h4>
-                        <ul>
-                            <li>95% 이상 참가자가 "매우 기대됨" 또는 "기대됨" 응답</li>
-                            <li>Next 기술 Insight 향상에 높은 기대감 표명</li>
-                            <li>업무 연관성 및 실무 활용 가능성에 대한 긍정적 평가</li>
-                            <li>향후 세미나 지속 참여에 대한 강한 의지 표출</li>
-                        </ul>
-                    </div>
                     <div class="education-item">
                         <h4>조직 차원 효과</h4>
                         <ul>
