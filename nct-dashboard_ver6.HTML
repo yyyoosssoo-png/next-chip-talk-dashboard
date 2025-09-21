@@ -849,9 +849,7 @@
     <div class="container">
         <div class="header">
             <div class="logo-area">
-                <img src="nct-logo.png" alt="Next Chip Talk Logo" class="nct-logo-img" 
-                     onerror="this.style.display='none'; document.getElementById('fallback-logo').style.display='block';">
-                <div id="fallback-logo" style="display: none; font-family: 'Orbitron', monospace; font-size: 4rem; font-weight: 300; color: #ffffff; letter-spacing: 0.2em; margin-bottom: 20px;">nct</div>
+                <img src="https://raw.githubusercontent.com/yyyoosssoo-png/next-chip-talk-dashboard/main/nct-logo.png" alt="Next Chip Talk Logo" class="nct-logo-img">
             </div>
             <h1>Next Chip Talk 교육 성과 분석</h1>
             <p>2025 미래반도체 Next & Grey 영역 교육 성과</p>
@@ -1192,7 +1190,7 @@
                 options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' }}}
             });
 
-            // [수정] 경력별 참가자 분포 (가로 막대그래프)
+            // 경력별 참가자 분포 (가로 막대그래프)
             createChart('experienceChart', {
                 type: 'bar',
                 data: {
@@ -1206,9 +1204,9 @@
                 options: {
                     responsive: true,
                     maintainAspectRatio: false,
-                    indexAxis: 'y', // 이 옵션으로 가로 막대 그래프 생성
+                    indexAxis: 'y',
                     plugins: {
-                        legend: { display: false } // 범례 숨기기
+                        legend: { display: false }
                     },
                     scales: {
                         x: {
